@@ -1,55 +1,37 @@
-import React, { Component } from "react";
-// import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
-
 import axios from "axios";
 
 import TableHeader from "./TableHeader";
 import TableContent from "./TableContent";
 
-class CountryList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      countries: [],
-    };
-  }
+const CountryList = () => {
+  const [countries, setCountries] = useState([]);
 
-  // useStyles = () =>
-  //   makeStyles({
-  //     table: {
-  //       minWidth: 650,
-  //     },
-  //   });
-
-  getData() {
+  useEffect(() => {
     axios.get("https://api.covid19api.com/summary").then((res) => {
-      console.log(res.data);
-      this.setState({ countries: res.data.Countries });
+      setCountries(res.data.Countries);
     });
-  }
+  }, []);
 
-  componentDidMount() {
-    this.getData();
-  }
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHeader />
+        <TableContent rows={countries} />
+      </Table>
+    </TableContainer>
+  );
+};
 
-  render() {
-    // const classes = this.useStyles();
-    // console.log("table", classes.table);
-    return (
-      <Container maxWidth="md">
-        <TableContainer component={Paper}>
-          <Table size="small" aria-label="a dense table">
-            <TableHeader />
-            <TableContent rows={this.state.countries} />
-          </Table>
-        </TableContainer>
-      </Container>
-    );
-  }
-}
+const useStyles = makeStyles({
+  table: {
+    minWidth: 350,
+  },
+});
 
 export default CountryList;
