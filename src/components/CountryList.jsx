@@ -8,13 +8,27 @@ import axios from "axios";
 import TableHeader from "./TableHeader";
 import TableContent from "./TableContent";
 
-const CountryList = () => {
-  const [countries, setCountries] = useState([]);
+export default function CountryList() {
+  const [globalData, setGlobalData] = useState({});
+  const [countriesData, setCountriesData] = useState([]);
 
   useEffect(() => {
-    axios.get("https://api.covid19api.com/summary").then((res) => {
-      setCountries(res.data.Countries);
-    });
+    if (localStorage.getItem("globalData")) {
+      setGlobalData(JSON.parse(localStorage.getItem("globalData")));
+      setCountriesData(JSON.parse(localStorage.getItem("countriesData")));
+      console.log("Local Storage used");
+    } else {
+      axios.get("https://api.covid19api.com/summary").then((res) => {
+        console.log("Api Called");
+        setGlobalData(res.data.Global);
+        setCountriesData(res.data.Countries);
+        localStorage.setItem("globalData", JSON.stringify(res.data.Global));
+        localStorage.setItem(
+          "countriesData",
+          JSON.stringify(res.data.Countries)
+        );
+      });
+    }
   }, []);
 
   const classes = useStyles();
@@ -22,16 +36,14 @@ const CountryList = () => {
     <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHeader />
-        <TableContent rows={countries} />
+        <TableContent global={globalData} countries={countriesData} />
       </Table>
     </TableContainer>
   );
-};
+}
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 350,
+    minWidth: 650,
   },
 });
-
-export default CountryList;
