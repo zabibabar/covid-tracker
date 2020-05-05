@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableContainer from "@material-ui/core/TableContainer";
-import Paper from "@material-ui/core/Paper";
 import axios from "axios";
+import CountryList from "./CountryList";
 
-import TableHeader from "./TableHeader";
-import TableContent from "./TableContent";
-
-export default function CountryList() {
+export default function Sidebar() {
   const [globalData, setGlobalData] = useState({});
   const [countriesData, setCountriesData] = useState([]);
 
@@ -31,19 +25,17 @@ export default function CountryList() {
     }
   }, []);
 
-  const classes = useStyles();
-  return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHeader />
-        <TableContent global={globalData} countries={countriesData} />
-      </Table>
-    </TableContainer>
-  );
+  countriesData.sort(GetSortOrder("TotalConfirmed"));
+  return <CountryList countries={countriesData} />;
 }
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
+function GetSortOrder(prop) {
+  return function (a, b) {
+    if (a[prop] > b[prop]) {
+      return -1;
+    } else if (a[prop] < b[prop]) {
+      return 1;
+    }
+    return 0;
+  };
+}
