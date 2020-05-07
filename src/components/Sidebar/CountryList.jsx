@@ -20,7 +20,7 @@ export default function CountryList(props) {
   return (
     <List className={classes.root}>
       {props.countries.map((country) => (
-        <Countries key={country.Slug} country={country} />
+        <Countries key={country.Country_Region} country={country} />
       ))}
     </List>
   );

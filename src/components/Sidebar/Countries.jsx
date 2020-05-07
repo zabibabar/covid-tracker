@@ -4,7 +4,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Countries(props) {
   const classes = useStyles();
   const {
-    Country,
-    TotalConfirmed,
-    TotalDeaths,
-    TotalRecovered,
+    Country_Region: Country,
+    Confirmed,
+    Deaths,
+    Recovered,
   } = props.country;
   return (
     <ListItem className={classes.root}>
@@ -68,7 +67,7 @@ export default function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {TotalConfirmed.toLocaleString()}
+                  {Confirmed.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Cases
@@ -80,7 +79,7 @@ export default function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {TotalDeaths.toLocaleString()}
+                  {Deaths.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Deaths
@@ -92,7 +91,7 @@ export default function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {TotalRecovered.toLocaleString()}
+                  {Recovered.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Recovered
