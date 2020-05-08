@@ -8,7 +8,6 @@ export default function Sidebar() {
   useEffect(() => {
     if (localStorage.getItem("GlobalData")) {
       setGlobalData(JSON.parse(localStorage.getItem("GlobalData")));
-      console.log(JSON.parse(localStorage.getItem("GlobalData")));
     } else {
       const requestOptions = {
         redirect: "follow",
