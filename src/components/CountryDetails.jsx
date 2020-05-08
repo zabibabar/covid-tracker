@@ -2,16 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function CountryDetails() {
-  const [confirmed, setConfirmed] = useState({});
-  const [death, setDeaths] = useState([]);
-  const [recovered, setRecovered] = useState([]);
-  useEffect(() => {
-    function StoreInLocalStorage(confirmedData, deathData, recoveredData) {
-      localStorage.setItem("confirmed", confirmedData);
-      localStorage.setItem("death", deathData);
-      localStorage.setItem("recovered", recoveredData);
-    }
+  const [timeSeries, setTimeSeries] = useState({});
 
+  useEffect(() => {
     const getData = async () => {
       const requestOptions = {
         method: "get",
@@ -45,23 +38,17 @@ export default function CountryDetails() {
       deathData = convertTextToJSON(deathData, "death");
       recoveredData = convertTextToJSON(recoveredData, "recovered");
 
-      setConfirmed(confirmedData);
-      setDeaths(deathData);
-      setRecovered(recoveredData);
-
-      StoreInLocalStorage(confirmedData, deathData, recoveredData);
+      const data = { ...confirmedData, ...deathData, ...recoveredData };
+      return data;
     }
 
-    if (
-      localStorage.getItem("confirmed") &&
-      localStorage.getItem("death") &&
-      localStorage.getItem("recovered")
-    ) {
-      StoreInLocalStorage();
-      console.log("Local Storage Used");
+    if (localStorage.getItem("data")) {
+      setTimeSeries(JSON.parse(localStorage.getItem("data")));
     } else {
-      fetchAndConvertData();
-      console.log("JHU CSV Downloaded");
+      fetchAndConvertData().then((data) => {
+        setTimeSeries(data);
+        localStorage.setItem("data", JSON.stringify(data));
+      });
     }
   }, []);
 
@@ -92,9 +79,6 @@ export default function CountryDetails() {
 
   const convertTextToJSON = (data, name) => {
     const headers = Object.keys(data[0]).slice(4);
-    //console.log(headers);
-    //console.log(data);
-
     const json = { [name]: {} };
 
     for (let i = 1; i < data.length - 1; i++) {
@@ -106,8 +90,6 @@ export default function CountryDetails() {
       });
       json[name][data[i]["Country/Region"]] = countryArray;
     }
-
-    console.log(json);
     return json;
   };
 

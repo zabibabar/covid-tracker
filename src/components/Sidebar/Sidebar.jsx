@@ -6,25 +6,56 @@ export default function Sidebar() {
   const [globalData, setGlobalData] = useState([]);
 
   useEffect(() => {
-    if (localStorage.getItem("GlobalData")) {
-      setGlobalData(JSON.parse(localStorage.getItem("GlobalData")));
-    } else {
+    const getDateString = (n) => {
+      const daysToMs = (n) => {
+        return n * 24 * 60 * 60 * 1000;
+      };
+      const date = new Date(Date.now() - daysToMs(n));
+      const format = new Intl.DateTimeFormat("en", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      const [month, , day, , year] = format.formatToParts(date);
+
+      return `${month.value}-${day.value}-${year.value}`;
+    };
+    async function getData(n = 0) {
+      const maxTries = 5;
       const requestOptions = {
+        method: "get",
+        url: `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/${getDateString(
+          n
+        )}.csv`,
         redirect: "follow",
       };
 
-      axios
-        .get(
-          "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-06-2020.csv",
-          requestOptions
-        )
-        .then((response) => {
+      try {
+        const response = await axios(requestOptions);
+        if (response.status === 200) {
           let data = csvToJson(response.data);
           data = data.filter((country) => !country["Province_State"]);
+          return data;
+        } else {
+          return n + 1 < maxTries ? getData(n + 1) : null;
+        }
+      } catch (error) {
+        console.log("error", error);
+        return n + 1 < maxTries ? getData(n + 1) : null;
+      }
+    }
+
+    if (localStorage.getItem("GlobalData")) {
+      setGlobalData(JSON.parse(localStorage.getItem("GlobalData")));
+    } else {
+      getData()
+        .then((data) => {
           localStorage.setItem("GlobalData", JSON.stringify(data));
           setGlobalData(JSON.parse(localStorage.getItem("GlobalData")));
+          console.log(data);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => console.log(error));
     }
   }, []);
 
