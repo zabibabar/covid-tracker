@@ -1,15 +1,17 @@
 import React from "react";
+import { Provider } from "react-redux";
 import Navbar from "../src/components/Navbar";
-import Sidebar from "../src/components/Sidebar/Sidebar";
-import CountryDetails from "../src/components/CountryDetails";
+import CountryList from "../src/components/Sidebar/CountryList";
+import CountryCharts from "../src/components/CountryCharts";
+import store from "./store";
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <Navbar />
-      <Sidebar />
-      <CountryDetails />
-    </>
+      <CountryList />
+      <CountryCharts />
+    </Provider>
   );
 }
 
