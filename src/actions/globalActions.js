@@ -50,7 +50,9 @@ const getData = async (n = 0) => {
     const response = await axios(requestOptions);
     if (response.status === 200) {
       let data = csvToJson(response.data);
-      data = data.filter((country) => !country["Province_State"]).slice(0, -1);
+      data = data
+        .filter((country) => !country["Province_State"] && country.Lat)
+        .slice(0, -1);
       return data.sort(GetSortOrder("Confirmed"));
     } else {
       return n + 1 < maxTries

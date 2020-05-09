@@ -1,4 +1,4 @@
-import { GET_TIMESERIES, TIMESERIES_LOADING } from "./types";
+import { GET_TIME_SERIES, TIME_SERIES_LOADING } from "./types";
 import { returnErrors } from "./errorActions";
 import { csvToJson } from "./globalActions";
 import axios from "axios";
@@ -8,7 +8,7 @@ export const getTimeSeries = () => (dispatch) => {
   getData()
     .then((data) =>
       dispatch({
-        type: GET_TIMESERIES,
+        type: GET_TIME_SERIES,
         payload: data,
       })
     )
@@ -17,7 +17,7 @@ export const getTimeSeries = () => (dispatch) => {
 
 export const timeSeriesLoading = () => {
   return {
-    type: TIMESERIES_LOADING,
+    type: TIME_SERIES_LOADING,
   };
 };
 
@@ -38,16 +38,28 @@ const getData = async () => {
   try {
     const [confirmed, death, recovered] = await axios.all(requests);
 
-    let confirmedData = csvToJson(confirmed.data);
-    confirmedData = convertTextToJSON(confirmedData, "confirmed");
+    let confirmedData = csvToJson(confirmed.data).filter(
+      (country) => !country["Province/State"] && country.Lat
+    );
+    let deathData = csvToJson(death.data).filter(
+      (country) => !country["Province/State"] && country.Lat
+    );
+    let recoveredData = csvToJson(recovered.data).filter(
+      (country) => !country["Province/State"] && country.Lat
+    );
 
-    let deathData = csvToJson(death.data);
-    deathData = convertTextToJSON(deathData, "death");
+    console.log(confirmedData);
 
-    let recoveredData = csvToJson(recovered.data);
-    recoveredData = convertTextToJSON(recoveredData, "recovered");
+    confirmedData = convertTextToJSON(confirmedData);
+    deathData = convertTextToJSON(deathData);
+    recoveredData = convertTextToJSON(recoveredData);
 
-    return { confirmedData, deathData, recoveredData };
+    console.log(confirmedData);
+    return {
+      confirmed: confirmedData,
+      deaths: deathData,
+      recovered: recoveredData,
+    };
   } catch (error) {
     console.log(error.message);
   }
@@ -55,7 +67,7 @@ const getData = async () => {
 
 const convertTextToJSON = (data, name) => {
   const headers = Object.keys(data[0]).slice(4);
-  const json = { [name]: {} };
+  const json = {};
 
   for (let i = 1; i < data.length - 1; i++) {
     const countryArray = headers.map((val) => {
@@ -64,7 +76,7 @@ const convertTextToJSON = (data, name) => {
       row.data = parseInt(data[i][val]);
       return row;
     });
-    json[name][data[i]["Country/Region"]] = countryArray;
+    json[data[i]["Country/Region"]] = countryArray;
   }
   return json;
 };

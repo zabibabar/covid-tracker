@@ -1,9 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+
+import { setSelectedCountry } from "../../actions/selectedCountryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,16 +33,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Countries(props) {
+function Countries(props) {
   const classes = useStyles();
   const {
-    Country_Region: Country,
-    Confirmed,
-    Deaths,
-    Recovered,
+    Country_Region: country,
+    Confirmed: totalConfirmed,
+    Deaths: totalDeaths,
+    Recovered: totalRecovered,
   } = props.country;
+
   return (
-    <ListItem className={classes.root}>
+    <ListItem
+      className={classes.root}
+      onClick={() =>
+        props.setSelectedCountry({
+          country,
+          totalConfirmed,
+          totalDeaths,
+          totalRecovered,
+        })
+      }
+    >
       <ListItemText
         disableTypography
         className={classes.item}
@@ -49,7 +63,7 @@ export default function Countries(props) {
             variant="h6"
             component="div"
           >
-            {Country}
+            {country}
           </Typography>
         }
         secondary={
@@ -61,37 +75,37 @@ export default function Countries(props) {
               alignItems="center"
               spacing={3}
             >
-              <Grid item xs={4}>
+              <Grid item s={6} md={4}>
                 <Typography
                   className={classes.numbers}
                   variant="subtitle2"
                   component="div"
                 >
-                  {Confirmed.toLocaleString()}
+                  {totalConfirmed.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Cases
                 </Typography>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item s={6} md={4}>
                 <Typography
                   className={classes.numbers}
                   variant="subtitle2"
                   component="div"
                 >
-                  {Deaths.toLocaleString()}
+                  {totalDeaths.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Deaths
                 </Typography>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item s={12} md={4}>
                 <Typography
                   className={classes.numbers}
                   variant="subtitle2"
                   component="div"
                 >
-                  {Recovered.toLocaleString()}
+                  {totalRecovered.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Recovered
@@ -104,3 +118,5 @@ export default function Countries(props) {
     </ListItem>
   );
 }
+
+export default connect(null, { setSelectedCountry })(Countries);
