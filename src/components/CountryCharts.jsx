@@ -18,7 +18,6 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
     getTimeSeries();
   }, [getTimeSeries]);
 
-  console.log(selectedCountry);
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" component="h4">

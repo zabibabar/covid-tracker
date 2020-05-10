@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { getGlobal } from "../../actions/globalActions";
+import React, { useEffect, useState } from "react";
+import { getTimeSeries } from "../../actions/timeSeriesActions";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -16,23 +16,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CountryList({ getGlobal, global }) {
+function CountryList({ getTimeSeries, timeSeries }) {
+  const [sortedTimeSeries, setSortedTimeSeries] = useState([]);
   useEffect(() => {
-    getGlobal();
-  }, [getGlobal]);
+    getTimeSeries();
+  }, [getTimeSeries]);
+
+  useEffect(() => {
+    let sort_array = [];
+    Object.keys(timeSeries).map((country) => {
+      return sort_array.push({
+        key: country,
+        confirmed: timeSeries[country].slice(-1)[0].confirmed,
+      });
+    });
+
+    sort_array.sort(function (x, y) {
+      return y.confirmed - x.confirmed;
+    });
+    setSortedTimeSeries(sort_array);
+  }, [timeSeries]);
 
   const classes = useStyles();
   return (
     <List className={classes.root}>
-      {global.data.map((country) => (
-        <Countries key={country.Country_Region} country={country} />
+      {sortedTimeSeries.map((country) => (
+        <Countries
+          key={country.key}
+          country={country.key}
+          data={timeSeries[country.key].slice(-1)[0]}
+        />
       ))}
     </List>
   );
 }
 
 const mapStateToProps = (state) => ({
-  global: state.global,
+  timeSeries: state.timeSeries.data,
 });
 
-export default connect(mapStateToProps, { getGlobal })(CountryList);
+export default connect(mapStateToProps, { getTimeSeries })(CountryList);

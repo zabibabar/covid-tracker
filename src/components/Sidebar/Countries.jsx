@@ -36,11 +36,9 @@ const useStyles = makeStyles((theme) => ({
 function Countries(props) {
   const classes = useStyles();
   const {
-    Country_Region: country,
-    Confirmed: totalConfirmed,
-    Deaths: totalDeaths,
-    Recovered: totalRecovered,
-  } = props.country;
+    country,
+    data: { confirmed, deaths, recovered },
+  } = props;
 
   return (
     <ListItem
@@ -74,7 +72,7 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {totalConfirmed.toLocaleString()}
+                  {confirmed.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Cases
@@ -86,7 +84,7 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {totalDeaths.toLocaleString()}
+                  {deaths.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Deaths
@@ -98,7 +96,7 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {totalRecovered.toLocaleString()}
+                  {recovered.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Recovered

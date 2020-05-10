@@ -1,17 +1,25 @@
-import { GET_TIME_SERIES, TIME_SERIES_LOADING } from "./types";
+import {
+  GET_TIME_SERIES,
+  TIME_SERIES_LOADING,
+  SET_SELECTED_COUNTRY,
+} from "./types";
 import { returnErrors } from "./errorActions";
-import { csvToJson } from "./globalActions";
 import axios from "axios";
 
 export const getTimeSeries = () => (dispatch) => {
   dispatch(timeSeriesLoading());
   getData()
-    .then((data) =>
+    .then((data) => {
       dispatch({
         type: GET_TIME_SERIES,
         payload: data,
-      })
-    )
+      });
+      dispatch({
+        type: SET_SELECTED_COUNTRY,
+        name: "US",
+        data: data["US"],
+      });
+    })
     .catch((err) => dispatch(returnErrors(err, 404)));
 };
 
@@ -53,15 +61,32 @@ const getData = async () => {
     recoveredData = convertTextToJSON(recoveredData, "recovered");
 
     return mergeJSONs(confirmedData, deathData, recoveredData);
-
-    // return {
-    //   confirmed: confirmedData,
-    //   deaths: deathData,
-    //   recovered: recoveredData,
-    // };
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const csvToJson = (str, quotechar = '"', delimiter = ",") => {
+  const cutlast = (_, i, a) => i < a.length - 1;
+  // const regex = /(?:[\t ]?)+("+)?(.*?)\1(?:[\t ]?)+(?:,|$)/gm; // no variable chars
+  const regex = new RegExp(
+    `(?:[\\t ]?)+(${quotechar}+)?(.*?)\\1(?:[\\t ]?)+(?:${delimiter}|$)`,
+    "gm"
+  );
+  const lines = str.split("\n");
+  //const headers = lines.splice(0, 1)[0].match(regex).filter(cutlast);
+  const headers = lines[0].split(",");
+  const list = [];
+
+  for (const line of lines) {
+    const val = {};
+    for (const [i, m] of [...line.matchAll(regex)].filter(cutlast).entries()) {
+      // Attempt to convert to Number if possible, also use null if blank
+      val[headers[i]] = m[2].length > 0 ? Number(m[2]) || m[2] : null;
+    }
+    list.push(val);
+  }
+  return list;
 };
 
 const convertTextToJSON = (data, name) => {
