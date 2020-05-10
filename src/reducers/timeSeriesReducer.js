@@ -1,9 +1,7 @@
 import { GET_TIME_SERIES, TIME_SERIES_LOADING } from "../actions/types";
 
 const initialState = {
-  confirmed: {},
-  deaths: {},
-  recovered: {},
+  data: {},
   loading: false,
 };
 
@@ -12,9 +10,7 @@ export default function (state = initialState, action) {
     case GET_TIME_SERIES:
       return {
         ...state,
-        confirmed: action.payload.confirmed,
-        deaths: action.payload.deaths,
-        recovered: action.payload.recovered,
+        data: action.payload,
         loading: false,
       };
     case TIME_SERIES_LOADING:

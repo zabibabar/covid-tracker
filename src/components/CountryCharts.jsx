@@ -18,23 +18,32 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
     getTimeSeries();
   }, [getTimeSeries]);
 
+  console.log(selectedCountry);
   return (
     <Container maxWidth="sm">
+      <Typography variant="h4" component="h4">
+        {selectedCountry.name}
+      </Typography>
       <Typography variant="h5" component="h5">
         Confirmed Cases
       </Typography>
       <LineChart
         width={600}
         height={300}
-        data={selectedCountry.confirmedData}
+        data={selectedCountry.data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="data" stroke="#8884d8" dot={false} />
+        <Line
+          type="monotone"
+          dataKey="confirmed"
+          stroke="#8884d8"
+          dot={false}
+        />
       </LineChart>
 
       <Typography variant="h5" component="h5">
@@ -43,15 +52,15 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
       <LineChart
         width={600}
         height={300}
-        data={selectedCountry.deathsData}
+        data={selectedCountry.data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="data" stroke="#8884d8" dot={false} />
+        <Line type="monotone" dataKey="deaths" stroke="#8884d8" dot={false} />
       </LineChart>
 
       <Typography variant="h5" component="h5">
@@ -60,15 +69,20 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
       <LineChart
         width={600}
         height={300}
-        data={selectedCountry.recoveredData}
+        data={selectedCountry.data}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="data" stroke="#8884d8" dot={false} />
+        <Line
+          type="monotone"
+          dataKey="recovered"
+          stroke="#8884d8"
+          dot={false}
+        />
       </LineChart>
     </Container>
   );
@@ -76,7 +90,7 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
 
 const mapStateToProps = (state) => ({
   timeSeries: state.timeSeries,
-  selectedCountry: state.selectedCountry.country,
+  selectedCountry: state.selectedCountry,
 });
 
 export default connect(mapStateToProps, { getTimeSeries })(CountryCharts);

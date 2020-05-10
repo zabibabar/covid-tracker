@@ -48,18 +48,17 @@ const getData = async () => {
       (country) => !country["Province/State"] && country.Lat
     );
 
-    console.log(confirmedData);
+    confirmedData = convertTextToJSON(confirmedData, "confirmed");
+    deathData = convertTextToJSON(deathData, "deaths");
+    recoveredData = convertTextToJSON(recoveredData, "recovered");
 
-    confirmedData = convertTextToJSON(confirmedData);
-    deathData = convertTextToJSON(deathData);
-    recoveredData = convertTextToJSON(recoveredData);
+    return mergeJSONs(confirmedData, deathData, recoveredData);
 
-    console.log(confirmedData);
-    return {
-      confirmed: confirmedData,
-      deaths: deathData,
-      recovered: recoveredData,
-    };
+    // return {
+    //   confirmed: confirmedData,
+    //   deaths: deathData,
+    //   recovered: recoveredData,
+    // };
   } catch (error) {
     console.log(error.message);
   }
@@ -69,14 +68,32 @@ const convertTextToJSON = (data, name) => {
   const headers = Object.keys(data[0]).slice(4);
   const json = {};
 
-  for (let i = 1; i < data.length - 1; i++) {
+  for (let i = 0; i < data.length - 1; i++) {
     const countryArray = headers.map((val) => {
       const row = {};
-      row.name = val;
-      row.data = parseInt(data[i][val]);
+      row.date = val;
+      row[name] = parseInt(data[i][val]);
       return row;
     });
     json[data[i]["Country/Region"]] = countryArray;
   }
+  return json;
+};
+
+const mergeJSONs = (json1, json2, json3) => {
+  let json = {};
+  Object.keys(json1).map((country) => {
+    json[country] = [];
+    for (let i = 0; i < json1[country].length; i++) {
+      const row = {
+        date: json1[country][i].date,
+        confirmed: json1[country][i].confirmed,
+        deaths: json2[country][i].deaths,
+        recovered: json3[country][i].recovered,
+      };
+      json[country].push(row);
+    }
+    return null;
+  });
   return json;
 };

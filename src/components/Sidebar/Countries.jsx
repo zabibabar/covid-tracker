@@ -45,14 +45,7 @@ function Countries(props) {
   return (
     <ListItem
       className={classes.root}
-      onClick={() =>
-        props.setSelectedCountry({
-          country,
-          totalConfirmed,
-          totalDeaths,
-          totalRecovered,
-        })
-      }
+      onClick={() => props.setSelectedCountry(country)}
     >
       <ListItemText
         disableTypography

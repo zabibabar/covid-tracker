@@ -4,7 +4,8 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  country: {},
+  name: "",
+  data: [],
   loading: false,
 };
 
@@ -13,7 +14,8 @@ export default function (state = initialState, action) {
     case SET_SELECTED_COUNTRY:
       return {
         ...state,
-        country: action.payload,
+        name: action.name,
+        data: action.data,
         loading: false,
       };
     case SELECTED_COUNTRY_LOADING:
