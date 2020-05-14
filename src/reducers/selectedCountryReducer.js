@@ -4,7 +4,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  name: "US",
+  name: "",
   data: [],
   loading: false,
 };

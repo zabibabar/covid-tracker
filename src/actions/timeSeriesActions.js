@@ -8,19 +8,34 @@ import axios from "axios";
 
 export const getTimeSeries = () => (dispatch) => {
   dispatch(timeSeriesLoading());
-  getData()
-    .then((data) => {
-      dispatch({
-        type: GET_TIME_SERIES,
-        payload: data,
-      });
-      dispatch({
-        type: SET_SELECTED_COUNTRY,
-        name: "US",
-        data: data["US"],
-      });
-    })
-    .catch((err) => dispatch(returnErrors(err, 404)));
+  if (localStorage.getItem("data")) {
+    console.log("Local Storage Used");
+    dispatch({
+      type: GET_TIME_SERIES,
+      payload: JSON.parse(localStorage.getItem("data")),
+    });
+    dispatch({
+      type: SET_SELECTED_COUNTRY,
+      name: "US",
+      data: JSON.parse(localStorage.getItem("data"))["US"],
+    });
+  } else {
+    console.log("API called");
+    getData()
+      .then((data) => {
+        localStorage.setItem("data", JSON.stringify(data));
+        dispatch({
+          type: GET_TIME_SERIES,
+          payload: data,
+        });
+        dispatch({
+          type: SET_SELECTED_COUNTRY,
+          name: "US",
+          data: data["US"],
+        });
+      })
+      .catch((err) => dispatch(returnErrors(err, 404)));
+  }
 };
 
 export const timeSeriesLoading = () => {
@@ -113,8 +128,22 @@ const mergeJSONs = (json1, json2, json3) => {
       const row = {
         date: json1[country][i].date,
         confirmed: json1[country][i].confirmed,
+        newConfirmed:
+          i > 0
+            ? json1[country][i].confirmed - json1[country][i - 1].confirmed
+            : 0,
         deaths: json2[country][i].deaths,
+        newDeaths:
+          i > 0 ? json2[country][i].deaths - json2[country][i - 1].deaths : 0,
         recovered: json3[country][i].recovered,
+        newRecovered:
+          i > 0
+            ? json3[country][i].recovered - json3[country][i - 1].recovered
+            : 0,
+        active:
+          json1[country][i].confirmed -
+          json2[country][i].deaths -
+          json3[country][i].recovered,
       };
       json[country].push(row);
     }

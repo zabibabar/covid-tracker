@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
-import { getTimeSeries } from "../actions/timeSeriesActions";
+import React from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import {
   LineChart,
+  BarChart,
+  Bar,
   Line,
   XAxis,
   YAxis,
@@ -13,25 +15,24 @@ import {
   Legend,
 } from "recharts";
 
-function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
-  useEffect(() => {
-    getTimeSeries();
-  }, [getTimeSeries]);
+const useStyles = makeStyles((theme) => ({
+  country: {
+    margin: theme.spacing(3),
+    textAlign: "center",
+  },
+}));
 
+function CountryCharts({ selectedCountry }) {
+  const classes = useStyles();
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h4">
+      <Typography className={classes.country} variant="h4" component="h4">
         {selectedCountry.name}
       </Typography>
       <Typography variant="h5" component="h5">
         Confirmed Cases
       </Typography>
-      <LineChart
-        width={600}
-        height={300}
-        data={selectedCountry.data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
+      <LineChart width={600} height={300} data={selectedCountry.data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis />
@@ -48,12 +49,7 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
       <Typography variant="h5" component="h5">
         Deaths
       </Typography>
-      <LineChart
-        width={600}
-        height={300}
-        data={selectedCountry.data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
+      <LineChart width={600} height={300} data={selectedCountry.data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis />
@@ -65,12 +61,7 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
       <Typography variant="h5" component="h5">
         Recovered
       </Typography>
-      <LineChart
-        width={600}
-        height={300}
-        data={selectedCountry.data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
+      <LineChart width={600} height={300} data={selectedCountry.data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis />
@@ -83,13 +74,36 @@ function CountryCharts({ timeSeries, getTimeSeries, selectedCountry }) {
           dot={false}
         />
       </LineChart>
+
+      <Typography variant="h5" component="h5">
+        Active
+      </Typography>
+      <LineChart width={600} height={300} data={selectedCountry.data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="active" stroke="#8884d8" dot={false} />
+      </LineChart>
+
+      <Typography variant="h5" component="h5">
+        New Cases
+      </Typography>
+      <BarChart width={600} height={300} data={selectedCountry.data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="newConfirmed" fill="#8884d8" />
+      </BarChart>
     </Container>
   );
 }
 
 const mapStateToProps = (state) => ({
-  timeSeries: state.timeSeries,
   selectedCountry: state.selectedCountry,
 });
 
-export default connect(mapStateToProps, { getTimeSeries })(CountryCharts);
+export default connect(mapStateToProps)(CountryCharts);

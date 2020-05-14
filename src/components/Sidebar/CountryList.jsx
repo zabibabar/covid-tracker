@@ -24,16 +24,14 @@ function CountryList({ getTimeSeries, timeSeries }) {
 
   useEffect(() => {
     let sort_array = [];
-    Object.keys(timeSeries).map((country) => {
+    Object.keys(timeSeries || {}).map((country) => {
       return sort_array.push({
         key: country,
         confirmed: timeSeries[country].slice(-1)[0].confirmed,
       });
     });
 
-    sort_array.sort(function (x, y) {
-      return y.confirmed - x.confirmed;
-    });
+    sort_array.sort((x, y) => y.confirmed - x.confirmed);
     setSortedTimeSeries(sort_array);
   }, [timeSeries]);
 

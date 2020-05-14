@@ -72,7 +72,9 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {confirmed.toLocaleString()}
+                  {confirmed.toLocaleString() === "0"
+                    ? "N/A"
+                    : confirmed.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Cases
@@ -84,7 +86,9 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {deaths.toLocaleString()}
+                  {deaths.toLocaleString() === "0"
+                    ? "N/A"
+                    : deaths.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Deaths
@@ -96,7 +100,9 @@ function Countries(props) {
                   variant="subtitle2"
                   component="div"
                 >
-                  {recovered.toLocaleString()}
+                  {recovered.toLocaleString() === "0"
+                    ? "N/A"
+                    : recovered.toLocaleString()}
                 </Typography>
                 <Typography variant="body2" component="div">
                   Recovered
