@@ -4,17 +4,17 @@ import axios from "axios";
 
 export const getTimeSeries = () => (dispatch) => {
   dispatch(timeSeriesLoading());
-  if (localStorage.getItem("data")) {
-    console.log("Local Storage Used");
+  if (sessionStorage.getItem("data")) {
+    console.log("Session Storage Used");
     dispatch({
       type: GET_TIME_SERIES,
-      payload: JSON.parse(localStorage.getItem("data")),
+      payload: JSON.parse(sessionStorage.getItem("data")),
     });
   } else {
     console.log("API called");
     getData()
       .then((data) => {
-        localStorage.setItem("data", JSON.stringify(data));
+        sessionStorage.setItem("data", JSON.stringify(data));
         dispatch({
           type: GET_TIME_SERIES,
           payload: data,
