@@ -7,12 +7,16 @@ import Countries from "./Countries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    maxWidth: "48ch",
-    backgroundColor: theme.palette.background.paper,
-    position: "relative",
-    overflow: "auto",
-    height: "calc(100vh - 80px)",
+    width: "20%",
+    marginTop: theme.spacing(8),
+    padding: 0,
+    position: "fixed",
+    zIndex: 1,
+    overflowY: "scroll",
+    top: 0,
+    bottom: 0,
+    overflowX: "hidden",
+    height: "calc(100vh)",
   },
 }));
 

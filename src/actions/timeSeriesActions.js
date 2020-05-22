@@ -1,8 +1,4 @@
-import {
-  GET_TIME_SERIES,
-  TIME_SERIES_LOADING,
-  SET_SELECTED_COUNTRY,
-} from "./types";
+import { GET_TIME_SERIES, TIME_SERIES_LOADING } from "./types";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
 
@@ -14,11 +10,6 @@ export const getTimeSeries = () => (dispatch) => {
       type: GET_TIME_SERIES,
       payload: JSON.parse(localStorage.getItem("data")),
     });
-    dispatch({
-      type: SET_SELECTED_COUNTRY,
-      name: "US",
-      data: JSON.parse(localStorage.getItem("data"))["US"],
-    });
   } else {
     console.log("API called");
     getData()
@@ -27,11 +18,6 @@ export const getTimeSeries = () => (dispatch) => {
         dispatch({
           type: GET_TIME_SERIES,
           payload: data,
-        });
-        dispatch({
-          type: SET_SELECTED_COUNTRY,
-          name: "US",
-          data: data["US"],
         });
       })
       .catch((err) => dispatch(returnErrors(err, 404)));

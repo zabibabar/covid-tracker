@@ -22,11 +22,11 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <TimelineIcon className={classes.Icon} />
           <Typography variant="h6" className={classes.title}>
-            Coronavirus Case Tracker
+            Covid Tracker
           </Typography>
         </Toolbar>
       </AppBar>
