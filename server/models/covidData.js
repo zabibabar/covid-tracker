@@ -1,7 +1,7 @@
 const model = require("mongoose").model;
 const Schema = require("mongoose").Schema;
 
-// Create Schema
+// Create CovidData Schema
 const CovidDataSchema = new Schema({
   country: {
     type: String,
@@ -31,6 +31,14 @@ const CovidDataSchema = new Schema({
     type: Number,
     required: true,
   },
+  totalActive: {
+    type: Number,
+    required: true,
+  },
+  newActive: {
+    type: Number,
+    required: true,
+  },
   lastUpdated: {
     type: Date,
     default: Date.now,
@@ -47,6 +55,8 @@ const TimeSeriesSchema = new Schema({
   newDeaths: Number,
   recovered: Number,
   newRecovered: Number,
+  active: Number,
+  newActive: Number,
 });
 
 exports.CovidData = model("covidData", CovidDataSchema);

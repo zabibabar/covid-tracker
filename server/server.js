@@ -1,12 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const keys = require("./config");
 
 // routes
 const countries = require("./routes/api/countries");
 const timeSeries = require("./routes/api/timeSeries");
-
-const { MONGO_URI, MONGO_DB_NAME } = config;
 
 const app = express();
 
@@ -14,7 +13,7 @@ const app = express();
 app.use(cors());
 
 // DB Config
-const db = `${MONGO_URI}/${MONGO_DB_NAME}`;
+const db = keys.MONGO_URI;
 
 // Connect to Mongo
 mongoose
