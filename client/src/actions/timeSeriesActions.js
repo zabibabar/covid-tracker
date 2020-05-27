@@ -117,19 +117,32 @@ const mergeJSONs = (json1, json2, json3) => {
         newConfirmed:
           i > 0
             ? json1[country][i].confirmed - json1[country][i - 1].confirmed
-            : 0,
+            : json1[country][i].confirmed,
         deaths: json2[country][i].deaths,
         newDeaths:
-          i > 0 ? json2[country][i].deaths - json2[country][i - 1].deaths : 0,
+          i > 0
+            ? json2[country][i].deaths - json2[country][i - 1].deaths
+            : json2[country][i].deaths,
         recovered: json3[country][i].recovered,
         newRecovered:
           i > 0
             ? json3[country][i].recovered - json3[country][i - 1].recovered
-            : 0,
+            : json3[country][i].recovered,
         active:
           json1[country][i].confirmed -
           json2[country][i].deaths -
           json3[country][i].recovered,
+        newActive:
+          i > 0
+            ? json1[country][i].confirmed -
+              json2[country][i].deaths -
+              json3[country][i].recovered -
+              (json1[country][i - 1].confirmed -
+                json2[country][i - 1].deaths -
+                json3[country][i - 1].recovered)
+            : json1[country][i].confirmed -
+              json2[country][i].deaths -
+              json3[country][i].recovered,
       };
       json[country].push(row);
     }

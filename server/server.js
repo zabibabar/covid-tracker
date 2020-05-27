@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const keys = require("./config");
+const updateMongoData2 = require("./dbUpdate");
 
 // routes
 const countries = require("./routes/api/countries");
@@ -21,8 +22,10 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-  }) // Adding new mongo url parser
-  .then(() => console.log("MongoDB Connected..."))
+  })
+  .then(() => {
+    console.log("MongoDB Connected...");
+  })
   .catch((err) => console.log(err));
 
 // Use Routes
