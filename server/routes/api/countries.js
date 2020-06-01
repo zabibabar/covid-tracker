@@ -1,14 +1,23 @@
 const router = require("express").Router();
 const covidData = require("../../models/covidData");
+const updateAndReturnCovidData = require("../../dbUpdate");
 
 // @route   GET api/countries
 // @desc    Get all countries cases
 // @access  Public
 router.get("/", (req, res) => {
   covidData
-    .find()
-    .select("-timeSeries -_id -__v")
+    .find({}, "-timeSeries -_id -__v")
     .sort({ totalConfirmed: -1 })
+    .then(async (countries) => {
+      if (countries[0].lastUpdated.getTime() + 86400000 > Date.now())
+        return countries;
+
+      await updateAndReturnCovidData();
+      return covidData
+        .find({}, "-timeSeries -_id -__v")
+        .sort({ totalConfirmed: -1 });
+    })
     .then((countries) => res.json(countries))
     .catch((err) => res.status(500).json({ err }));
 });
@@ -30,10 +39,19 @@ router.get("/list", (req, res) => {
 // @access  Public
 router.get("/:country", (req, res) => {
   covidData
-    .find({ country: req.params.country })
-    .select("-timeSeries -_id -__v")
+    .find({ country: req.params.country }, "-timeSeries -_id -__v")
     .sort({ totalConfirmed: -1 })
-    .then((countries) => res.json(countries));
+    .then(async (countries) => {
+      if (countries[0].lastUpdated.getTime() + 86400000 > Date.now())
+        return countries;
+
+      await updateAndReturnCovidData();
+      return covidData
+        .find({ country: req.params.country }, "-timeSeries -_id -__v")
+        .sort({ totalConfirmed: -1 });
+    })
+    .then((countries) => res.json(countries))
+    .catch((err) => res.status(500).json({ err }));
 });
 
 module.exports = router;

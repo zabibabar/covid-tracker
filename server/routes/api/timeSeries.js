@@ -6,10 +6,24 @@ const covidData = require("../../models/covidData");
 // @access  Public
 router.get("/", (req, res) => {
   covidData
-    .find()
-    .select("country timeSeries -_id")
-    .then((countries) => res.json(countries.slice(0, 10)))
-    .catch((err) => res.status(500).json({ err }));
+    .find({}, "country timeSeries -_id")
+    .then(async (countries) => {
+      if (
+        countries[0].timeSeries[
+          countries[0].timeSeries.length - 1
+        ].date.getTime() +
+          2 * 86400000 >
+        Date.now()
+      )
+        return countries;
+
+      await updateAndReturnCovidData();
+      return covidData
+        .find({}, "country timeSeries -_id")
+        .sort({ totalConfirmed: -1 });
+    })
+    .then((countries) => res.json(countries))
+    .catch((error) => res.status(500).json({ error }));
 });
 
 // @route   GET api/timeSeries/:country
@@ -17,10 +31,23 @@ router.get("/", (req, res) => {
 // @access  Public
 router.get("/:country", (req, res) => {
   covidData
-    .find({ country: req.params.country })
-    .select("country timeSeries -_id")
-    .sort({ totalConfirmed: -1 })
-    .then((countries) => res.json(countries));
+    .find({ country: req.params.country }, "country timeSeries -_id")
+    .then(async (country) => {
+      if (
+        country[0].timeSeries[country[0].timeSeries.length - 1].date.getTime() +
+          2 * 86400000 >
+        Date.now()
+      )
+        return country;
+      console.log("Longer than 2 days");
+      await updateAndReturnCovidData();
+      return covidData.find(
+        { country: req.params.country },
+        "country timeSeries -_id"
+      );
+    })
+    .then(([country]) => res.json(country))
+    .catch((error) => res.status(500).json({ error }));
 });
 
 module.exports = router;

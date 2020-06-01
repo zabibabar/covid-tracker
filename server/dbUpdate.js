@@ -1,54 +1,12 @@
 const axios = require("axios");
 const CovidData = require("./models/covidData");
 
-const updateMongoData = async () => {
-  try {
-    const data = await getData();
-    CovidData.find()
-      .then((countries) => {
-        countries.forEach(async (row) => {
-          try {
-            const res = await CovidData.updateOne(
-              { country: row.country },
-              {
-                totalConfirmed:
-                  data[row.country][data[row.country].length - 1].confirmed,
-                newConfirmed:
-                  data[row.country][data[row.country].length - 1].newConfirmed,
-                totalDeaths:
-                  data[row.country][data[row.country].length - 1].deaths,
-                newDeaths:
-                  data[row.country][data[row.country].length - 1].newDeaths,
-                totalRecovered:
-                  data[row.country][data[row.country].length - 1].recovered,
-                newRecovered:
-                  data[row.country][data[row.country].length - 1].newRecovered,
-                totalActive:
-                  data[row.country][data[row.country].length - 1].active,
-                newActive:
-                  data[row.country][data[row.country].length - 1].newActive,
-                timeSeries: data[row.country],
-                lastUpdated: Date.now(),
-              }
-            );
-          } catch (err) {
-            console.log(err);
-          }
-        });
-      })
-      .catch((err) => console.log(err));
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const updateMongoData2 = async () => {
+const updateAndReturnCovidData = async () => {
   try {
     const countries = await CovidData.find();
-    if (countries[0].lastUpdated.getTime() + 24 * 60 * 60 * 1000 < Date.now()) {
-      console.log("Been longer than a day");
-      const data = await getData();
-      countries.forEach(async (row) => {
+    const data = await getData();
+    await Promise.all(
+      countries.map(async (row) => {
         await CovidData.updateOne(
           { country: row.country },
           {
@@ -70,10 +28,8 @@ const updateMongoData2 = async () => {
             lastUpdated: Date.now(),
           }
         );
-      });
-    } else {
-      console.log("Been less than a day");
-    }
+      })
+    );
   } catch (err) {
     console.log(err);
   }
@@ -226,6 +182,4 @@ const mergeJSONs = (json1, json2, json3) => {
   return json;
 };
 
-//updateMongoData2();
-
-module.exports = updateMongoData2;
+module.exports = updateAndReturnCovidData;
