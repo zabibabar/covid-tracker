@@ -5,8 +5,13 @@ const covidData = require("../../models/covidData");
 // @desc    Get timeSeries data for all countries
 // @access  Public
 router.get("/", (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
   covidData
     .find({}, "country timeSeries -_id")
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .sort({ country: 1 })
     .then(async (countries) => {
       if (
         countries[0].timeSeries[
