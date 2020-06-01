@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const covidData = require("../../models/covidData");
-const updateAndReturnCovidData = require("../../dbUpdate");
+const updateCovidData = require("../../dbUpdate");
 
 // @route   GET api/countries
 // @desc    Get all countries cases
@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
       if (countries[0].lastUpdated.getTime() + 86400000 > Date.now())
         return countries;
 
-      await updateAndReturnCovidData();
+      await updateCovidData();
       return covidData
         .find({}, "-timeSeries -_id -__v")
         .sort({ totalConfirmed: -1 });
@@ -45,7 +45,7 @@ router.get("/:country", (req, res) => {
       if (countries[0].lastUpdated.getTime() + 86400000 > Date.now())
         return countries;
 
-      await updateAndReturnCovidData();
+      await updateCovidData();
       return covidData
         .find({ country: req.params.country }, "-timeSeries -_id -__v")
         .sort({ totalConfirmed: -1 });

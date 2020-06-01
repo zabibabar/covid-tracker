@@ -1,7 +1,7 @@
 const axios = require("axios");
 const CovidData = require("./models/covidData");
 
-const updateAndReturnCovidData = async () => {
+const updateCovidData = async () => {
   try {
     const countries = await CovidData.find();
     const data = await getData();
@@ -182,4 +182,4 @@ const mergeJSONs = (json1, json2, json3) => {
   return json;
 };
 
-module.exports = updateAndReturnCovidData;
+module.exports = updateCovidData;
