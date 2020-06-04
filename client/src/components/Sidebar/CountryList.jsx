@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getTimeSeries } from "../../actions/timeSeriesActions";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,7 +7,7 @@ import Countries from "./Countries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "20%",
+    width: "36ch",
     marginTop: theme.spacing(8),
     padding: 0,
     position: "fixed",
@@ -16,37 +16,35 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     overflowX: "hidden",
-    height: "calc(100vh)",
+    height: `calc(100vh - ${theme.spacing(8)})`,
+    backgroundColor: "FFF",
+    "&::-webkit-scrollbar": {
+      width: "0.4em",
+    },
+    "&::-webkit-scrollbar-track": {
+      boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+      webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey",
+    },
   },
 }));
 
 function CountryList({ getTimeSeries, timeSeries }) {
-  const [sortedTimeSeries, setSortedTimeSeries] = useState([]);
   useEffect(() => {
     getTimeSeries();
   }, [getTimeSeries]);
 
-  useEffect(() => {
-    let sort_array = [];
-    Object.keys(timeSeries || {}).map((country) => {
-      return sort_array.push({
-        key: country,
-        confirmed: timeSeries[country].slice(-1)[0].confirmed,
-      });
-    });
-
-    sort_array.sort((x, y) => y.confirmed - x.confirmed);
-    setSortedTimeSeries(sort_array);
-  }, [timeSeries]);
-
   const classes = useStyles();
   return (
     <List className={classes.root}>
-      {sortedTimeSeries.map((country) => (
+      {timeSeries.map((country) => (
         <Countries
-          key={country.key}
-          country={country.key}
-          data={timeSeries[country.key].slice(-1)[0]}
+          key={country.country}
+          country={country.country}
+          countryTimeSeries={country.timeSeries}
         />
       ))}
     </List>

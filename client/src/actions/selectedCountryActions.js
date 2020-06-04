@@ -1,17 +1,16 @@
 import { SET_SELECTED_COUNTRY, SELECTED_COUNTRY_LOADING } from "./types";
 import { returnErrors } from "./errorActions";
 
-export const setSelectedCountry = (country) => (dispatch, getState) => {
+export const setSelectedCountry = ({ country, countryTimeSeries }) => (
+  dispatch
+) => {
   dispatch(selectedCountryLoading);
 
-  const timeSeries = getState().timeSeries.data;
-  const data = timeSeries[country];
-
-  if (data) {
+  if (countryTimeSeries.length) {
     dispatch({
       type: SET_SELECTED_COUNTRY,
       name: country,
-      data: data,
+      data: countryTimeSeries,
     });
   } else dispatch(returnErrors("Data for this country does not exist", 404));
 };

@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
     .find({}, "country timeSeries -_id")
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ country: 1 })
+    .sort({ totalConfirmed: -1 })
     .then(async (countries) => {
       if (!Array.isArray(countries) || !countries.length)
         throw "Can't find that data matches the query";

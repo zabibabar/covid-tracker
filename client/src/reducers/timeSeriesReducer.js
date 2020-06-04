@@ -1,7 +1,7 @@
 import { GET_TIME_SERIES, TIME_SERIES_LOADING } from "../actions/types";
 
 const initialState = {
-  data: {},
+  data: [],
   loading: false,
 };
 

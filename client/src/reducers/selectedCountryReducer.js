@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   name: "",
-  data: [],
+  countryTimeSeries: [],
   loading: false,
 };
 
@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         name: action.name,
-        data: action.data,
+        countryTimeSeries: action.data,
         loading: false,
       };
     case SELECTED_COUNTRY_LOADING:

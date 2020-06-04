@@ -24,10 +24,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
   },
-  country: {
-    margin: theme.spacing(3),
-    textAlign: "center",
-  },
 }));
 
 function CountryCharts({ selectedCountry }) {
@@ -35,9 +31,6 @@ function CountryCharts({ selectedCountry }) {
 
   return (
     <Container maxWidth="md" className={classes.root}>
-      <Typography className={classes.country} variant="h4" component="h4">
-        {selectedCountry.name}
-      </Typography>
       <Typography variant="h5" component="h5">
         Confirmed Cases
       </Typography>
@@ -45,7 +38,7 @@ function CountryCharts({ selectedCountry }) {
         width={800}
         height={400}
         className={classes.charts}
-        data={selectedCountry.data}
+        data={selectedCountry.countryTimeSeries}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />

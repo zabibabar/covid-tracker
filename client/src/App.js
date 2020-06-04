@@ -1,10 +1,9 @@
 import React from "react";
 import { Provider } from "react-redux";
-import Navbar from "../src/components/Navbar";
+import Header from "./components/Sidebar/Header";
 import CountryList from "../src/components/Sidebar/CountryList";
-import CountryCharts from "../src/components/CountryCharts";
+import CountryDetails from "../src/components/CountryDetails";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import store from "./store";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,16 +17,10 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Navbar />
+      <Header />
       <div className={classes.root}>
-        <Grid container>
-          <Grid item xs={3}>
-            <CountryList />
-          </Grid>
-          <Grid item xs={9}>
-            <CountryCharts />
-          </Grid>
-        </Grid>
+        <CountryList />
+        <CountryDetails />
       </div>
     </Provider>
   );

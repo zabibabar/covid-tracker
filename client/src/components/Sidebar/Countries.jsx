@@ -14,7 +14,7 @@ import { setSelectedCountry } from "../../actions/selectedCountryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#F9F8FF",
+    backgroundColor: "#FFF",
     width: "100%",
     margin: 0,
     paddingTop: theme.spacing(0.5),
@@ -56,18 +56,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Countries(props) {
+function Countries({ country, countryTimeSeries, setSelectedCountry }) {
   const classes = useStyles();
-  const {
-    country,
-    data: { confirmed, deaths, recovered },
-  } = props;
-
+  const { confirmed, deaths, recovered } = countryTimeSeries[
+    countryTimeSeries.length - 1
+  ];
   return (
     <>
       <ListItem
         className={classes.root}
-        onClick={() => props.setSelectedCountry(country)}
+        onClick={() => setSelectedCountry({ country, countryTimeSeries })}
       >
         <ListItemText
           disablediv
