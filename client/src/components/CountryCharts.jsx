@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 import red from "@material-ui/core/colors/red";
 import orange from "@material-ui/core/colors/orange";
 import lightGreen from "@material-ui/core/colors/lightGreen";
@@ -18,11 +19,22 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: 600,
+    height: 300,
   },
   charts: {
     marginLeft: "auto",
     marginRight: "auto",
+  },
+  title: {
+    padding: theme.spacing(1),
+  },
+  divider: {
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -30,13 +42,15 @@ function CountryCharts({ selectedCountry }) {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="md" className={classes.root}>
-      <Typography variant="h5" component="h5">
+    <Paper maxWidth="md" className={classes.root}>
+      <Typography variant="h5" component="h5" className={classes.title}>
         Confirmed Cases
       </Typography>
+      <Divider className={classes.divider} />
+
       <LineChart
-        width={800}
-        height={400}
+        width={550}
+        height={250}
         className={classes.charts}
         data={selectedCountry.countryTimeSeries}
       >
@@ -60,7 +74,7 @@ function CountryCharts({ selectedCountry }) {
         />
         <Line type="monotone" dataKey="active" stroke="#8884d8" dot={false} />
       </LineChart>
-    </Container>
+    </Paper>
   );
 }
 

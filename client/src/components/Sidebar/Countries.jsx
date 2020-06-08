@@ -4,128 +4,114 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import Grid from "@material-ui/core/Grid";
-import red from "@material-ui/core/colors/red";
-import orange from "@material-ui/core/colors/orange";
-import lightGreen from "@material-ui/core/colors/lightGreen";
+import IconButton from "@material-ui/core/IconButton";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 import { setSelectedCountry } from "../../actions/selectedCountryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "90%",
     backgroundColor: "#FFF",
-    width: "100%",
-    margin: 0,
+    margin: "5% auto",
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5),
+    boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.05)",
+    borderRadius: "6px",
+    fontFamily: `"Segoe UI",
+      "Segoe UI Web(West European)",
+      "Segoe UI",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Roboto",
+      "Helvetica Neue",
+      "sans-serif"`,
     "&:hover": {
-      boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2)",
+      boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
+      border: "1px solid #00809D",
+      color: "#00809D",
       cursor: "pointer",
-      transform: "scale(1.05)",
+      "& $nextButton": {
+        opacity: 1,
+        marginLeft: "12px",
+        "& svg": {
+          display: "block",
+        },
+      },
     },
   },
   item: {
-    margin: 0,
+    display: "flex",
+    alignItems: "center",
+    postion: "relative",
   },
   countryName: {
-    marginBottom: theme.spacing(0.5),
-    fontWeight: "bold",
+    fontSize: "15px",
+    fontWeight: "600",
+    flex: "1 1 0",
   },
-  numbers: {
-    textAlign: "center",
-    fontWeight: "bold",
-    "& .cases": {
-      fontSize: "1.2rem",
-      fontWeight: "lighter",
-      color: orange[500],
-    },
-    "& .deaths": {
-      fontSize: "1.2rem",
-      fontWeight: "lighter",
-      color: red[500],
-    },
-    "& .recovered": {
-      fontSize: "1.2rem",
-      fontWeight: "lighter",
-      color: lightGreen[800],
+  number: {
+    color: "#777",
+    fontSize: "13px",
+  },
+  nextButton: {
+    padding: 0,
+    transition: "0.4s all",
+    opacity: 0,
+    "& svg": {
+      display: "none",
     },
   },
-  divider: {
-    marginTop: theme.spacing(1),
+  selected: {
+    boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
+    border: "1px solid #00809D",
+    color: "#00809D",
   },
 }));
 
-function Countries({ country, countryTimeSeries, setSelectedCountry }) {
+function Countries({
+  country,
+  countryTimeSeries,
+  selectedCountry,
+  setSelectedCountry,
+}) {
   const classes = useStyles();
-  const { confirmed, deaths, recovered } = countryTimeSeries[
-    countryTimeSeries.length - 1
-  ];
+  const { active } = countryTimeSeries[countryTimeSeries.length - 1];
+  const isSelected = selectedCountry.name === country;
   return (
-    <>
-      <ListItem
-        className={classes.root}
-        onClick={() => setSelectedCountry({ country, countryTimeSeries })}
-      >
-        <ListItemText
-          disablediv
-          className={classes.item}
-          primary={
-            <Typography
-              className={classes.countryName}
-              variant="h6"
-              component="div"
-            >
-              {country}
+    <ListItem
+      className={`${classes.root} ${isSelected ? classes.selected : null}`}
+      onClick={() => setSelectedCountry({ country, countryTimeSeries })}
+    >
+      <ListItemText
+        disableTypography={true}
+        className={classes.item}
+        primary={
+          <Typography
+            className={classes.countryName}
+            variant="h6"
+            component="div"
+          >
+            {country === "US" ? "United States" : country}
+          </Typography>
+        }
+        secondary={
+          <>
+            <Typography className={classes.number} variant="h6" component="div">
+              {active.toLocaleString("en")}
             </Typography>
-          }
-          secondary={
-            <>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={2}
-              >
-                <Grid item className={classes.numbers}>
-                  <div>
-                    <div className="cases">
-                      {confirmed.toLocaleString() === "0"
-                        ? "N/A"
-                        : confirmed.toLocaleString()}
-                    </div>
-                    <div>Cases</div>
-                  </div>
-                </Grid>
-                <Grid item className={classes.numbers}>
-                  <div>
-                    <div className="deaths">
-                      {deaths.toLocaleString() === "0"
-                        ? "N/A"
-                        : deaths.toLocaleString()}
-                    </div>
-                    <div>Deaths</div>
-                  </div>
-                </Grid>
-                <Grid item className={classes.numbers}>
-                  <div>
-                    <div className="recovered">
-                      {recovered.toLocaleString() === "0"
-                        ? "N/A"
-                        : recovered.toLocaleString()}
-                    </div>
-                    <div>Recovered</div>
-                  </div>
-                </Grid>
-              </Grid>
-              <Divider className={classes.divider} />
-            </>
-          }
-        />
-      </ListItem>
-    </>
+            <IconButton className={classes.nextButton}>
+              <NavigateNextIcon />
+            </IconButton>
+          </>
+        }
+      />
+    </ListItem>
   );
 }
 
-export default connect(null, { setSelectedCountry })(Countries);
+const mapStateToProps = (state) => ({
+  selectedCountry: state.selectedCountry,
+});
+
+export default connect(mapStateToProps, { setSelectedCountry })(Countries);

@@ -78,19 +78,23 @@ const getData = async () => {
   try {
     const [confirmed, death, recovered] = await axios.all(requests);
 
-    let confirmedData = csvToJson(confirmed.data).filter(
+    let confirmedData = csvToJsonArray(confirmed.data).filter(
       (country) => !country["Province/State"] && country.Lat
     );
-    let deathData = csvToJson(death.data).filter(
+    let deathData = csvToJsonArray(death.data).filter(
       (country) => !country["Province/State"] && country.Lat
     );
-    let recoveredData = csvToJson(recovered.data).filter(
+    let recoveredData = csvToJsonArray(recovered.data).filter(
       (country) => !country["Province/State"] && country.Lat
     );
 
-    confirmedData = convertTextToJSON(confirmedData, "confirmed");
-    deathData = convertTextToJSON(deathData, "deaths");
-    recoveredData = convertTextToJSON(recoveredData, "recovered");
+    addGlobalCasesTo(confirmedData);
+    addGlobalCasesTo(deathData);
+    addGlobalCasesTo(recoveredData);
+
+    confirmedData = convertJsonArrayToKeyValue(confirmedData, "confirmed");
+    deathData = convertJsonArrayToKeyValue(deathData, "deaths");
+    recoveredData = convertJsonArrayToKeyValue(recoveredData, "recovered");
 
     return mergeJSONs(confirmedData, deathData, recoveredData);
   } catch (error) {
@@ -98,7 +102,7 @@ const getData = async () => {
   }
 };
 
-const csvToJson = (str, quotechar = '"', delimiter = ",") => {
+const csvToJsonArray = (str, quotechar = '"', delimiter = ",") => {
   const cutlast = (_, i, a) => i < a.length - 1;
   // const regex = /(?:[\t ]?)+("+)?(.*?)\1(?:[\t ]?)+(?:,|$)/gm; // no variable chars
   const regex = new RegExp(
@@ -121,11 +125,32 @@ const csvToJson = (str, quotechar = '"', delimiter = ",") => {
   return list;
 };
 
-const convertTextToJSON = (data, name) => {
+const addGlobalCasesTo = (jsonArray) => {
+  const headers = Object.keys(jsonArray[0]).slice(4);
+  const global = {
+    "Province/State": null,
+    "Country/Region": "World",
+    Lat: 0.0,
+    Long: 0.0,
+  };
+  headers.forEach((date) => {
+    global[date] = 0;
+  });
+
+  jsonArray.forEach((country) => {
+    headers.forEach((date) => {
+      global[date] += parseInt(country[date]);
+    });
+  });
+
+  jsonArray.push(global);
+};
+
+const convertJsonArrayToKeyValue = (data, name) => {
   const headers = Object.keys(data[0]).slice(4);
   const json = {};
 
-  for (let i = 0; i < data.length - 1; i++) {
+  for (let i = 0; i < data.length; i++) {
     const countryArray = headers.map((val) => {
       const row = {};
       row.date = val;
@@ -134,12 +159,14 @@ const convertTextToJSON = (data, name) => {
     });
     json[data[i]["Country/Region"]] = countryArray;
   }
+
+  Object.entries(json).forEach((country, timeSeries) => {});
   return json;
 };
 
 const mergeJSONs = (json1, json2, json3) => {
   let json = {};
-  Object.keys(json1).map((country) => {
+  Object.keys(json1).forEach((country) => {
     json[country] = [];
     for (let i = 0; i < json1[country].length; i++) {
       const row = {
@@ -177,9 +204,8 @@ const mergeJSONs = (json1, json2, json3) => {
       };
       json[country].push(row);
     }
-    return null;
   });
   return json;
 };
 
-module.exports = updateCovidData;
+module.updateCovidData = updateCovidData;

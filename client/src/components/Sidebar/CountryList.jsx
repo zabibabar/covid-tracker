@@ -16,8 +16,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 0,
     overflowX: "hidden",
-    height: `calc(100vh - ${theme.spacing(8)})`,
-    backgroundColor: "FFF",
+    backgroundColor: "#FFF",
     "&::-webkit-scrollbar": {
       width: "0.4em",
     },
@@ -40,13 +39,15 @@ function CountryList({ getTimeSeries, timeSeries }) {
   const classes = useStyles();
   return (
     <List className={classes.root}>
-      {timeSeries.map((country) => (
-        <Countries
-          key={country.country}
-          country={country.country}
-          countryTimeSeries={country.timeSeries}
-        />
-      ))}
+      {timeSeries
+        .filter((country) => country.country != "World")
+        .map((country) => (
+          <Countries
+            key={country.country}
+            country={country.country}
+            countryTimeSeries={country.timeSeries}
+          />
+        ))}
     </List>
   );
 }

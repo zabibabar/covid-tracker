@@ -4,15 +4,13 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(1),
-    width: 250,
-    height: 150,
+    margin: theme.spacing(1),
+    padding: 0,
+    width: 225,
+    height: 110,
     color: "#FFF",
   },
   confirmed: {
@@ -31,11 +29,27 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage:
       "linear-gradient(to right top, #d87d2f, #db8a3b, #de9747, #e1a455, #e4b063)",
   },
-  avatar: {
-    backgroundColor: "inherit",
+  content: {
+    padding: theme.spacing(1),
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: "20px",
+    fontWeight: "400",
+    fontFamily: "FiraGo, system-ui, sans-serif",
   },
   total: {
-    textAlign: "center",
+    fontSize: "24px",
+    fontWeight: "700",
+    fontFamily: "FiraGo, system-ui, sans-serif",
+  },
+  today: {
+    fontSize: "18px",
+    fontWeight: "700",
+    fontFamily: "FiraGo, system-ui, sans-serif",
   },
 }));
 
@@ -43,10 +57,15 @@ export default function CaseCard({ type, total, today }) {
   const classes = useStyles();
   return (
     <Card className={`${classes.root} ${classes[type]}`}>
-      <CardHeader title={titleFromType(type)} />
-      <CardContent>
-        <Typography variant="h4" component="p" className={classes.total}>
-          {total}
+      <CardContent className={classes.content}>
+        <Typography component="p" className={classes.title}>
+          {titleFromType(type)}
+        </Typography>
+        <Typography component="p" className={classes.total}>
+          {total ? total.toLocaleString() : null}
+        </Typography>
+        <Typography component="p" className={classes.today}>
+          {formatToday(today)}
         </Typography>
       </CardContent>
     </Card>
@@ -66,4 +85,10 @@ function titleFromType(type) {
     default:
       return "";
   }
+}
+
+function formatToday(today) {
+  if (!today) return;
+  if (today < 0) return today.toLocaleString();
+  return `+${today.toLocaleString()}`;
 }

@@ -8,11 +8,13 @@ const updateCovidData = require("../../dbUpdate");
 router.get("/", (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
+  const sortBy = req.query.sortBy || "totalConfirmed";
+  const order = parseInt(req.query.order) || -1;
   covidData
     .find({}, "country timeSeries -_id")
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ totalConfirmed: -1 })
+    .sort({ [sortBy]: order })
     .then(async (countries) => {
       if (!Array.isArray(countries) || !countries.length)
         throw "Can't find that data matches the query";

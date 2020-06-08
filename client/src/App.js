@@ -9,6 +9,7 @@ import store from "./store";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    fontFamily: "FiraGo, system-ui, sans-serif",
   },
 }));
 

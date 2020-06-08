@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cards: {
     display: "flex",
-    justifyContent: "space-evenly",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
 }));
 
@@ -43,14 +44,26 @@ function CountryDetails({ country, countryTimeSeries = [] }) {
           type="confirmed"
           total={confirmed}
           today={newConfirmed}
+          className={classes.card}
         ></CaseCard>
-        <CaseCard type="deaths" total={deaths} today={newDeaths}></CaseCard>
+        <CaseCard
+          type="deaths"
+          total={deaths}
+          today={newDeaths}
+          className={classes.card}
+        ></CaseCard>
         <CaseCard
           type="recovered"
           total={recovered}
           today={newRecovered}
+          className={classes.card}
         ></CaseCard>
-        <CaseCard type="active" total={active} today={newActive}></CaseCard>
+        <CaseCard
+          type="active"
+          total={active}
+          today={newActive}
+          className={classes.card}
+        ></CaseCard>
       </div>
       <CountryCharts></CountryCharts>
     </div>
