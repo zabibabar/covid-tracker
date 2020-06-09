@@ -8,11 +8,10 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#F9F8FF",
-    paddingTop: theme.spacing(8),
     paddingLeft: "36ch",
   },
   country: {
-    margin: theme.spacing(3),
+    padding: theme.spacing(2),
     textAlign: "center",
   },
   cards: {

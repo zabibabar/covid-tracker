@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const keys = require("./config");
-const { updateCovidData } = require("./dbUpdate");
 
 // routes
 const countries = require("./routes/api/countries");

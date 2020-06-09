@@ -7,16 +7,10 @@ import Countries from "./Countries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "36ch",
-    marginTop: theme.spacing(8),
-    padding: 0,
-    position: "fixed",
-    zIndex: 1,
+    width: "100%",
+    height: "calc(100vh - 56px)",
     overflowY: "scroll",
-    top: 0,
-    bottom: 0,
     overflowX: "hidden",
-    backgroundColor: "#FFF",
     "&::-webkit-scrollbar": {
       width: "0.4em",
     },
@@ -40,7 +34,7 @@ function CountryList({ getTimeSeries, timeSeries }) {
   return (
     <List className={classes.root}>
       {timeSeries
-        .filter((country) => country.country != "World")
+        .filter((country) => country.country !== "World")
         .map((country) => (
           <Countries
             key={country.country}

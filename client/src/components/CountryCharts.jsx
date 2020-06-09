@@ -42,7 +42,7 @@ function CountryCharts({ selectedCountry }) {
   const classes = useStyles();
 
   return (
-    <Paper maxWidth="md" className={classes.root}>
+    <Paper className={classes.root}>
       <Typography variant="h5" component="h5" className={classes.title}>
         Confirmed Cases
       </Typography>

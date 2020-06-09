@@ -1,7 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import Header from "./components/Sidebar/Header";
-import CountryList from "../src/components/Sidebar/CountryList";
+import Sidebar from "./components/Sidebar/Sidebar";
 import CountryDetails from "../src/components/CountryDetails";
 import { makeStyles } from "@material-ui/core/styles";
 import store from "./store";
@@ -18,9 +17,8 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Header />
       <div className={classes.root}>
-        <CountryList />
+        <Sidebar />
         <CountryDetails />
       </div>
     </Provider>

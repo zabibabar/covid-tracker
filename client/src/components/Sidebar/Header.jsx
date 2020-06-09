@@ -1,19 +1,40 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import TimelineIcon from "@material-ui/icons/Timeline";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
     flexGrow: 1,
+    height: theme.spacing(7),
+    flexDirection: "column",
+    width: "inherit",
+    backgroundColor: "#FFF",
+  },
+  flex: {
+    display: "flex",
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    alignItems: "center",
   },
   Icon: {
     marginRight: theme.spacing(2),
   },
+  separator: {
+    marginRight: theme.spacing(2),
+  },
   title: {
-    flexGrow: 1,
+    fontSize: "20px",
+    fontWeight: "700",
+    fontFamily: `"Segoe UI",
+      "Segoe UI Web(West European)",
+      "Segoe UI",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Roboto",
+      "Helvetica Neue",
+      "sans-serif"`,
   },
 }));
 
@@ -21,15 +42,19 @@ export default function Header() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <TimelineIcon className={classes.Icon} />
-          <Typography variant="h6" className={classes.title}>
-            Covid Tracker
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <header className={classes.root}>
+      <div className={classes.flex}>
+        <TimelineIcon fontSize="large" className={classes.Icon} />
+        <Divider
+          orientation="vertical"
+          flexItem
+          className={classes.separator}
+        />
+        <Typography variant="h6" className={classes.title}>
+          Covid Tracker
+        </Typography>
+      </div>
+      <Divider />
+    </header>
   );
 }

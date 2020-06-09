@@ -208,4 +208,4 @@ const mergeJSONs = (json1, json2, json3) => {
   return json;
 };
 
-module.updateCovidData = updateCovidData;
+module.exports = updateCovidData;

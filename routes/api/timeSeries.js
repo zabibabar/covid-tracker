@@ -16,23 +16,27 @@ router.get("/", (req, res) => {
     .limit(limit)
     .sort({ [sortBy]: order })
     .then(async (countries) => {
-      if (!Array.isArray(countries) || !countries.length)
-        throw "Can't find that data matches the query";
+      if (!Array.isArray(countries) || !countries.length) {
+        throw "Can't find data matches the query";
+      }
       if (
         countries[0].timeSeries[
           countries[0].timeSeries.length - 1
         ].date.getTime() +
           2 * 86400000 >
         Date.now()
-      )
+      ) {
         return countries;
+      }
 
       await updateCovidData();
       return covidData
         .find({}, "country timeSeries -_id")
         .sort({ totalConfirmed: -1 });
     })
-    .then((countries) => res.json(countries))
+    .then((countries) => {
+      res.json(countries);
+    })
     .catch((error) => res.status(500).json({ error }));
 });
 
