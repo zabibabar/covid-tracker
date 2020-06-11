@@ -96,9 +96,10 @@ const getData = async () => {
     deathData = convertJsonArrayToKeyValue(deathData, "deaths");
     recoveredData = convertJsonArrayToKeyValue(recoveredData, "recovered");
 
-    return mergeJSONs(confirmedData, deathData, recoveredData);
+    const response = mergeJSONs(confirmedData, deathData, recoveredData);
+    return response;
   } catch (error) {
-    console.log(error.message);
+    console.log("Error in getting data:", error.message);
   }
 };
 
@@ -110,7 +111,6 @@ const csvToJsonArray = (str, quotechar = '"', delimiter = ",") => {
     "gm"
   );
   const lines = str.split("\n");
-  //const headers = lines.splice(0, 1)[0].match(regex).filter(cutlast);
   const headers = lines[0].split(",");
   const list = [];
 
@@ -118,7 +118,8 @@ const csvToJsonArray = (str, quotechar = '"', delimiter = ",") => {
     const val = {};
     for (const [i, m] of [...line.matchAll(regex)].filter(cutlast).entries()) {
       // Attempt to convert to Number if possible, also use null if blank
-      val[headers[i]] = m[2].length > 0 ? Number(m[2]) || m[2] : null;
+      if (i < headers.length)
+        val[headers[i]] = m[2].length > 0 ? Number(m[2]) || m[2] : null;
     }
     list.push(val);
   }
@@ -205,7 +206,10 @@ const mergeJSONs = (json1, json2, json3) => {
       json[country].push(row);
     }
   });
+
   return json;
 };
 
 module.exports = updateCovidData;
+
+getData();

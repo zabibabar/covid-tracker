@@ -18,14 +18,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(0.5),
     boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.05)",
     borderRadius: "6px",
-    fontFamily: `"Segoe UI",
-      "Segoe UI Web(West European)",
-      "Segoe UI",
-      "-apple-system",
-      "BlinkMacSystemFont",
-      "Roboto",
-      "Helvetica Neue",
-      "sans-serif"`,
     "&:hover": {
       boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
       border: "1px solid #00809D",
@@ -69,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Countries({
+function Country({
   country,
   countryTimeSeries,
   selectedCountry,
@@ -114,4 +106,4 @@ const mapStateToProps = (state) => ({
   selectedCountry: state.selectedCountry,
 });
 
-export default connect(mapStateToProps, { setSelectedCountry })(Countries);
+export default connect(mapStateToProps, { setSelectedCountry })(Country);

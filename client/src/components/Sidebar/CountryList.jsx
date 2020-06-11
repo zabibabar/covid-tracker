@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
-import { getTimeSeries } from "../../actions/timeSeriesActions";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import Countries from "./Countries";
+import Country from "./Country";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    height: "calc(100vh - 56px)",
     overflowY: "scroll",
-    overflowX: "hidden",
     "&::-webkit-scrollbar": {
       width: "0.4em",
     },
@@ -25,18 +22,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CountryList({ getTimeSeries, timeSeries }) {
-  useEffect(() => {
-    getTimeSeries();
-  }, [getTimeSeries]);
-
+function CountryList({ timeSeries }) {
   const classes = useStyles();
   return (
     <List className={classes.root}>
       {timeSeries
         .filter((country) => country.country !== "World")
         .map((country) => (
-          <Countries
+          <Country
             key={country.country}
             country={country.country}
             countryTimeSeries={country.timeSeries}
@@ -50,4 +43,4 @@ const mapStateToProps = (state) => ({
   timeSeries: state.timeSeries.data,
 });
 
-export default connect(mapStateToProps, { getTimeSeries })(CountryList);
+export default connect(mapStateToProps)(CountryList);

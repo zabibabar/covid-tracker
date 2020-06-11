@@ -10,23 +10,19 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     width: 225,
     height: 110,
-    color: "#FFF",
+    color: "White",
   },
   confirmed: {
-    backgroundImage:
-      "linear-gradient(to right top, #0073aa, #007eb4, #0089be, #0095c8, #00a0d2)",
+    background: theme.palette.info.main,
   },
   deaths: {
-    backgroundImage:
-      "linear-gradient(to right top, #ee3873, #f05477, #f16a7e, #f17e86, #f09090)",
+    background: theme.palette.error.main,
   },
   recovered: {
-    backgroundImage:
-      "linear-gradient(to right top, #71c53c, #72c653, #75c767, #79c878, #80c888)",
+    background: theme.palette.success.main,
   },
   active: {
-    backgroundImage:
-      "linear-gradient(to right top, #d87d2f, #db8a3b, #de9747, #e1a455, #e4b063)",
+    background: theme.palette.warning.main,
   },
   content: {
     padding: theme.spacing(1),
@@ -35,20 +31,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    fontSize: "20px",
-    fontWeight: "400",
-    fontFamily: "FiraGo, system-ui, sans-serif",
+  today: {
+    fontWeight: theme.typography.fontWeightMedium,
+    alignSelf: "flex-end",
   },
   total: {
-    fontSize: "24px",
-    fontWeight: "700",
-    fontFamily: "FiraGo, system-ui, sans-serif",
+    fontWeight: theme.typography.fontWeightLight,
   },
-  today: {
-    fontSize: "18px",
-    fontWeight: "700",
-    fontFamily: "FiraGo, system-ui, sans-serif",
+  title: {
+    fontWeight: theme.typography.fontWeightLight,
   },
 }));
 
@@ -57,14 +48,14 @@ export default function CaseCard({ type, total, today }) {
   return (
     <Card className={`${classes.root} ${classes[type]}`}>
       <CardContent className={classes.content}>
-        <Typography component="p" className={classes.title}>
-          {titleFromType(type)}
-        </Typography>
-        <Typography component="p" className={classes.total}>
-          {total ? total.toLocaleString() : null}
-        </Typography>
-        <Typography component="p" className={classes.today}>
+        <Typography variant="body2" component="div" className={classes.today}>
           {formatToday(today)}
+        </Typography>
+        <Typography variant="h4" component="div" className={classes.total}>
+          {total ? total.toLocaleString() : "N/A"}
+        </Typography>
+        <Typography variant="h6" component="div" className={classes.title}>
+          {titleFromType(type)}
         </Typography>
       </CardContent>
     </Card>
@@ -87,7 +78,7 @@ function titleFromType(type) {
 }
 
 function formatToday(today) {
-  if (!today) return;
+  if (!today) return "N/A";
   if (today < 0) return today.toLocaleString();
   return `+${today.toLocaleString()}`;
 }

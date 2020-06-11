@@ -1,15 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
 
 import CountryList from "./CountryList";
 import Header from "./Header";
+import WorldData from "./WorldData";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "36ch",
+    width: "300px",
+    height: "100vh",
     position: "fixed",
     display: "flex",
     flexDirection: "column",
+    flexGrow: 1,
     zIndex: 1,
     backgroundColor: "#FFF",
   },
@@ -20,7 +24,9 @@ const Sidebar = () => {
   return (
     <div className={classes.root}>
       <Header />
-      <CountryList className={classes.list} />
+      <WorldData />
+      <Divider />
+      <CountryList />
     </div>
   );
 };

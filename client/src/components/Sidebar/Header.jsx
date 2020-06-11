@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexGrow: 1,
-    height: theme.spacing(7),
     flexDirection: "column",
     width: "inherit",
     backgroundColor: "#FFF",
@@ -26,15 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: "20px",
-    fontWeight: "700",
-    fontFamily: `"Segoe UI",
-      "Segoe UI Web(West European)",
-      "Segoe UI",
-      "-apple-system",
-      "BlinkMacSystemFont",
-      "Roboto",
-      "Helvetica Neue",
-      "sans-serif"`,
+    fontWeight: theme.typography.fontWeightBold,
   },
 }));
 

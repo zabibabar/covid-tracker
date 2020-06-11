@@ -1,28 +1,38 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { getTimeSeries } from "./actions/timeSeriesActions";
+import { connect } from "react-redux";
 import Sidebar from "./components/Sidebar/Sidebar";
 import CountryDetails from "../src/components/CountryDetails";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import { makeStyles } from "@material-ui/core/styles";
-import store from "./store";
+import muiTheme from "./muiTheme";
+
+const theme = createMuiTheme(muiTheme);
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    minHeight: "100vh",
     flexGrow: 1,
-    fontFamily: "FiraGo, system-ui, sans-serif",
+    background: theme.palette.background.default,
   },
 }));
 
-function App() {
+function App({ getTimeSeries }) {
+  useEffect(() => {
+    getTimeSeries();
+  }, [getTimeSeries]);
+
   const classes = useStyles();
 
   return (
-    <Provider store={store}>
+    <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <Sidebar />
         <CountryDetails />
       </div>
-    </Provider>
+    </ThemeProvider>
   );
 }
 
-export default App;
+export default connect(null, { getTimeSeries })(App);
