@@ -1,69 +1,104 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import CountryCharts from "./CountryCharts";
-import CaseCard from "./CaseCard";
-import Typography from "@material-ui/core/Typography";
+
+// Material UI Imports
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Typography, Box } from "@material-ui/core";
+
+// Component Imports
+import Cards from "./Cards/Cards";
+import BarGraph from "./Graphs/BarGraph";
+import LineGraph from "./Graphs/LineGraph";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: "36ch",
+    paddingLeft: "45ch",
+    paddingRight: "9ch",
+    backgroundColor: theme.palette.background.default,
   },
   country: {
     padding: theme.spacing(2),
-    textAlign: "center",
-  },
-  cards: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
   },
 }));
 
-function CountryDetails({ country, countryTimeSeries = [] }) {
+function CountryDetails({ country, countryTimeSeries }) {
   const classes = useStyles();
-  const {
-    confirmed,
-    newConfirmed,
-    deaths,
-    newDeaths,
-    recovered,
-    newRecovered,
-    active,
-    newActive,
-  } = countryTimeSeries[countryTimeSeries.length - 1] || {};
+  const theme = useTheme();
+
+  if (!countryTimeSeries.length) return <></>;
+  const covidData = countryTimeSeries[countryTimeSeries.length - 1];
+
   return (
     <div className={classes.root}>
-      <Typography className={classes.country} variant="h4" component="h4">
+      <Typography
+        className={classes.country}
+        align="center"
+        variant="h4"
+        component="h4"
+      >
         {country}
       </Typography>
-      <div className={classes.cards}>
-        <CaseCard
-          type="confirmed"
-          total={confirmed}
-          today={newConfirmed}
-          className={classes.card}
-        ></CaseCard>
-        <CaseCard
-          type="deaths"
-          total={deaths}
-          today={newDeaths}
-          className={classes.card}
-        ></CaseCard>
-        <CaseCard
-          type="recovered"
-          total={recovered}
-          today={newRecovered}
-          className={classes.card}
-        ></CaseCard>
-        <CaseCard
-          type="active"
-          total={active}
-          today={newActive}
-          className={classes.card}
-        ></CaseCard>
-      </div>
-      <CountryCharts></CountryCharts>
+      <Cards covidData={covidData} />
+      <Box display="flex" flexDirection="column" my={3}>
+        <Box display="flex" justifyContent="space-between" flexWrap="wrap">
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["confirmed"]}
+            colors={[theme.palette.info.main]}
+          >
+            Total Confirmed
+          </LineGraph>
+          <BarGraph
+            timeSeries={countryTimeSeries}
+            types={["newConfirmed"]}
+            colors={[theme.palette.info.main]}
+          >
+            Daily Confirmed
+          </BarGraph>
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["active"]}
+            colors={[theme.palette.warning.main]}
+          >
+            Total Active
+          </LineGraph>
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["active", "confirmed"]}
+            colors={[theme.palette.info.main, theme.palette.warning.main]}
+          >
+            Confirmed vs. Active
+          </LineGraph>
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["deaths"]}
+            colors={[theme.palette.error.main]}
+          >
+            Total Deaths
+          </LineGraph>
+          <BarGraph
+            timeSeries={countryTimeSeries}
+            types={["newDeaths"]}
+            colors={[theme.palette.error.main]}
+          >
+            Daily Deaths
+          </BarGraph>
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["newConfirmed", "newRecovered"]}
+            colors={[theme.palette.info.main, theme.palette.success.main]}
+          >
+            New Confirmed vs. New Recovered
+          </LineGraph>
+          <LineGraph
+            timeSeries={countryTimeSeries}
+            types={["recovered", "deaths"]}
+            colors={[theme.palette.success.main, theme.palette.error.main]}
+          >
+            Total Recovered vs. Total Deaths
+          </LineGraph>
+        </Box>
+      </Box>
     </div>
   );
 }

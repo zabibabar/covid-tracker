@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "inherit",
     backgroundColor: "#FFF",
+    height: theme.spacing(7),
   },
   flex: {
     display: "flex",
@@ -35,7 +36,11 @@ export default function Header() {
   return (
     <header className={classes.root}>
       <div className={classes.flex}>
-        <TimelineIcon fontSize="large" className={classes.Icon} />
+        <TimelineIcon
+          fontSize="large"
+          className={classes.Icon}
+          color="primary"
+        />
         <Divider
           orientation="vertical"
           flexItem

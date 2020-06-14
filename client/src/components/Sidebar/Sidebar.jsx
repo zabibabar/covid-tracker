@@ -1,33 +1,28 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
+import { Divider, Box } from "@material-ui/core";
 
 import CountryList from "./CountryList";
 import Header from "./Header";
 import WorldData from "./WorldData";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "300px",
-    height: "100vh",
-    position: "fixed",
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    zIndex: 1,
-    backgroundColor: "#FFF",
-  },
-}));
+const Sidebar = ({ timeSeries }) => {
+  if (!Object.keys(timeSeries).length) return <></>;
 
-const Sidebar = () => {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      width={300}
+      height="100vh"
+      position="fixed"
+      zIndex={1}
+      boxShadow={2}
+    >
       <Header />
-      <WorldData />
+      <WorldData timeSeries={timeSeries} />
       <Divider />
-      <CountryList />
-    </div>
+      <CountryList timeSeries={timeSeries} />
+    </Box>
   );
 };
 

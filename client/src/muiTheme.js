@@ -13,8 +13,14 @@ export default {
     fontWeightMedium: 600,
   },
   palette: {
+    primary: {
+      main: "#6C1BFE",
+    },
+    secondary: {
+      main: "#408AA6",
+    },
     background: {
-      default: "#F9F8FF",
+      default: "#E7E9E5",
     },
   },
 };

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
       "& $nextButton": {
         opacity: 1,
-        marginLeft: "12px",
+        marginLeft: theme.spacing(1.5),
         "& svg": {
           display: "block",
         },
@@ -38,13 +38,11 @@ const useStyles = makeStyles((theme) => ({
     postion: "relative",
   },
   countryName: {
-    fontSize: "15px",
-    fontWeight: "600",
+    fontWeight: theme.typography.fontWeightMedium,
     flex: "1 1 0",
   },
   number: {
-    color: "#777",
-    fontSize: "13px",
+    color: theme.palette.text.secondary,
   },
   nextButton: {
     padding: 0,
@@ -76,12 +74,11 @@ function Country({
       onClick={() => setSelectedCountry({ country, countryTimeSeries })}
     >
       <ListItemText
-        disableTypography={true}
         className={classes.item}
         primary={
           <Typography
             className={classes.countryName}
-            variant="h6"
+            variant="subtitle2"
             component="div"
           >
             {country === "US" ? "United States" : country}
@@ -89,7 +86,11 @@ function Country({
         }
         secondary={
           <>
-            <Typography className={classes.number} variant="h6" component="div">
+            <Typography
+              className={classes.number}
+              variant="subtitle2"
+              component="span"
+            >
               {active.toLocaleString("en")}
             </Typography>
             <IconButton className={classes.nextButton}>

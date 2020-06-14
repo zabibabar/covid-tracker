@@ -14,25 +14,30 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     flexGrow: 1,
-    background: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
   },
 }));
 
-function App({ getTimeSeries }) {
+function App({ getTimeSeries, timeSeries }) {
   useEffect(() => {
     getTimeSeries();
   }, [getTimeSeries]);
 
   const classes = useStyles();
 
+  if (!timeSeries.data) return <></>;
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <Sidebar />
-        <CountryDetails />
+        <Sidebar timeSeries={timeSeries.data} />
+        <CountryDetails timeSeries={timeSeries.data} />
       </div>
     </ThemeProvider>
   );
 }
 
-export default connect(null, { getTimeSeries })(App);
+const mapStateToProps = (state) => ({
+  timeSeries: state.timeSeries,
+});
+
+export default connect(mapStateToProps, { getTimeSeries })(App);
