@@ -1,11 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Typography, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: "White",
+    backgroundColor: "White",
   },
   today: {
     fontWeight: theme.typography.fontWeightMedium,
@@ -32,7 +31,7 @@ export default function CaseCard({ type, total, today }) {
       alignItems="center"
       borderRadius="borderRadius"
       boxShadow={1}
-      bgcolor={getBackgroundFromType(type)}
+      color={getColorFromType(type)}
       className={`${classes.root} ${classes[type]}`}
     >
       <Typography variant="body2" component="div" className={classes.today}>
@@ -64,12 +63,12 @@ function titleFromType(type) {
 }
 
 function formatToday(today) {
-  if (!today) return "N/A";
+  if (isNaN(today)) return "N/A";
   if (today < 0) return today.toLocaleString();
   return `+${today.toLocaleString()}`;
 }
 
-const getBackgroundFromType = (type) => {
+const getColorFromType = (type) => {
   switch (type) {
     case "confirmed":
       return "info.main";

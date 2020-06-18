@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     overflowY: "scroll",
-    //height: `calc(100vh - ${theme.spacing(7)} )`,
     "&::-webkit-scrollbar": {
       width: "0.4em",
     },
@@ -24,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CountryList({ timeSeries }) {
+  console.log("List Rendering...");
   const classes = useStyles();
   return (
     <List className={classes.root}>

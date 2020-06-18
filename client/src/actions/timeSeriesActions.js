@@ -2,8 +2,8 @@ import {
   GET_TIME_SERIES,
   TIME_SERIES_LOADING,
   SET_SELECTED_COUNTRY,
-  SELECTED_COUNTRY_LOADING,
 } from "./types";
+import { selectedCountryLoading } from "./selectedCountryActions";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
 
@@ -35,11 +35,5 @@ export const getTimeSeries = () => (dispatch) => {
 export const timeSeriesLoading = () => {
   return {
     type: TIME_SERIES_LOADING,
-  };
-};
-
-export const selectedCountryLoading = () => {
-  return {
-    type: SELECTED_COUNTRY_LOADING,
   };
 };

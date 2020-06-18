@@ -6,28 +6,33 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-
-import { setSelectedCountry } from "../../actions/selectedCountryActions";
+import CloseIcon from "@material-ui/icons/Close";
+import {
+  setSelectedCountry,
+  deselectCountry,
+} from "../../actions/selectedCountryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "90%",
+    height: "40px",
     backgroundColor: "#FFF",
-    margin: "5% auto",
+    margin: `${theme.spacing(1)}px auto`,
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5),
-    boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.05)",
+    boxShadow: theme.shadows[1],
+    boxSizing: "border-box",
     borderRadius: "6px",
     "&:hover": {
-      boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
-      border: "1px solid #00809D",
-      color: "#00809D",
+      boxShadow: theme.shadows[2],
+      border: `1px solid ${theme.palette.primary.main}`,
+      color: theme.palette.primary.main,
       cursor: "pointer",
-      "& $nextButton": {
+      "& $button": {
         opacity: 1,
         marginLeft: theme.spacing(1.5),
         "& svg": {
-          display: "block",
+          display: "inline",
         },
       },
     },
@@ -35,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   item: {
     display: "flex",
     alignItems: "center",
-    postion: "relative",
   },
   countryName: {
     fontWeight: theme.typography.fontWeightMedium,
@@ -44,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   number: {
     color: theme.palette.text.secondary,
   },
-  nextButton: {
+  button: {
     padding: 0,
     transition: "0.4s all",
     opacity: 0,
@@ -54,24 +58,36 @@ const useStyles = makeStyles((theme) => ({
   },
   selected: {
     boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
-    border: "1px solid #00809D",
-    color: "#00809D",
+    border: `1px solid ${theme.palette.primary.main}`,
+    color: theme.palette.primary.main,
+    "& $button": {
+      opacity: 1,
+      marginLeft: theme.spacing(1.5),
+      "& svg": {
+        display: "block",
+      },
+    },
   },
 }));
 
 function Country({
   country,
   countryTimeSeries,
-  selectedCountry,
+  isSelected,
   setSelectedCountry,
+  deselectCountry,
 }) {
   const classes = useStyles();
   const { active } = countryTimeSeries[countryTimeSeries.length - 1];
-  const isSelected = selectedCountry.name === country;
+
+  function handleClick() {
+    if (isSelected) return deselectCountry();
+    return setSelectedCountry({ country, countryTimeSeries });
+  }
   return (
     <ListItem
-      className={`${classes.root} ${isSelected ? classes.selected : null}`}
-      onClick={() => setSelectedCountry({ country, countryTimeSeries })}
+      className={`${classes.root} ${isSelected ? classes.selected : ""}`}
+      onClick={() => handleClick()}
     >
       <ListItemText
         className={classes.item}
@@ -93,8 +109,12 @@ function Country({
             >
               {active.toLocaleString("en")}
             </Typography>
-            <IconButton className={classes.nextButton}>
-              <NavigateNextIcon />
+            <IconButton className={classes.button}>
+              {isSelected ? (
+                <CloseIcon fontSize="small" />
+              ) : (
+                <NavigateNextIcon />
+              )}
             </IconButton>
           </>
         }
@@ -103,8 +123,11 @@ function Country({
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedCountry: state.selectedCountry,
+const mapStateToProps = ({ selectedCountry }, { country }) => ({
+  isSelected: selectedCountry.name === country,
 });
 
-export default connect(mapStateToProps, { setSelectedCountry })(Country);
+export default connect(mapStateToProps, {
+  setSelectedCountry,
+  deselectCountry,
+})(Country);

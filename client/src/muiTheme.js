@@ -14,13 +14,13 @@ export default {
   },
   palette: {
     primary: {
-      main: "#6C1BFE",
+      main: "#673AB7",
     },
     secondary: {
       main: "#408AA6",
     },
     background: {
-      default: "#E7E9E5",
+      default: "#F5F7Fb",
     },
   },
 };

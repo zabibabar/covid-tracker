@@ -1,6 +1,7 @@
 import {
   SET_SELECTED_COUNTRY,
   SELECTED_COUNTRY_LOADING,
+  DESLECT_COUNTRY,
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +23,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case DESLECT_COUNTRY:
+      return {
+        ...state,
+        name: "",
+        countryTimeSeries: [],
+        loading: false,
       };
     default:
       return state;

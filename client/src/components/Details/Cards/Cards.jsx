@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Box } from "@material-ui/core";
 import CaseCard from "./CaseCard";
 
-export default function Cards({ covidData }) {
+function Cards({ covidData }) {
+  if (!covidData.length) return <></>;
   const {
     confirmed,
     newConfirmed,
@@ -12,7 +14,7 @@ export default function Cards({ covidData }) {
     newRecovered,
     active,
     newActive,
-  } = covidData;
+  } = covidData[covidData.length - 1];
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="space-between">
       <CaseCard
@@ -30,3 +32,9 @@ export default function Cards({ covidData }) {
     </Box>
   );
 }
+
+const mapStateToProps = (state) => ({
+  covidData: state.selectedCountry.countryTimeSeries,
+});
+
+export default connect(mapStateToProps)(Cards);
