@@ -31,6 +31,7 @@ const updateCovidData = async () => {
         );
       })
     );
+    console.log("Data updated");
   } catch (err) {
     console.log(err);
   }

@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   number: {
     color: theme.palette.text.secondary,
+    verticalAlign: "middle",
   },
   button: {
     padding: 0,
@@ -60,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
     border: `1px solid ${theme.palette.primary.main}`,
     color: theme.palette.primary.main,
+    "& $number": {
+      color: theme.palette.primary.main,
+    },
     "& $button": {
       opacity: 1,
       marginLeft: theme.spacing(1.5),
@@ -113,7 +117,7 @@ function Country({
               {isSelected ? (
                 <CloseIcon fontSize="small" />
               ) : (
-                <NavigateNextIcon />
+                <NavigateNextIcon fontSize="small" />
               )}
             </IconButton>
           </>

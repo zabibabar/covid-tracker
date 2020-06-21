@@ -14,39 +14,62 @@ export default function CountryDetails() {
   const theme = useTheme();
 
   return (
-    <Box pl="45ch" pr="9ch" bgcolor="background.default">
+    <Box pl="45ch" pr="9ch">
       <CountryName />
       <Cards />
-      <Box display="flex" flexDirection="column" my={3}>
+      <Box display="flex" flexDirection="column" mt={3}>
         <Box display="flex" justifyContent="space-between" flexWrap="wrap">
-          <LineGraph types={["confirmed"]} colors={[theme.palette.info.main]}>
+          <LineGraph
+            names={["Confirmed"]}
+            types={["confirmed"]}
+            colors={[theme.palette.info.main]}
+          >
             Total Confirmed
           </LineGraph>
-          <BarGraph types={["newConfirmed"]} colors={[theme.palette.info.main]}>
+          <BarGraph
+            names={["Daily Confirmed"]}
+            types={["newConfirmed"]}
+            colors={[theme.palette.info.main]}
+          >
             Daily Confirmed
           </BarGraph>
-          <LineGraph types={["active"]} colors={[theme.palette.warning.main]}>
+          <LineGraph
+            names={["Active"]}
+            types={["active"]}
+            colors={[theme.palette.warning.main]}
+          >
             Total Active
           </LineGraph>
           <LineGraph
+            names={["Active", "Confirmed"]}
             types={["active", "confirmed"]}
             colors={[theme.palette.info.main, theme.palette.warning.main]}
           >
             Confirmed vs. Active
           </LineGraph>
-          <LineGraph types={["deaths"]} colors={[theme.palette.error.main]}>
+          <LineGraph
+            names={["Deaths"]}
+            types={["deaths"]}
+            colors={[theme.palette.error.main]}
+          >
             Total Deaths
           </LineGraph>
-          <BarGraph types={["newDeaths"]} colors={[theme.palette.error.main]}>
+          <BarGraph
+            names={["Deaths"]}
+            types={["newDeaths"]}
+            colors={[theme.palette.error.main]}
+          >
             Daily Deaths
           </BarGraph>
           <LineGraph
+            names={["Daily Confirmed", "Daily Recovered"]}
             types={["newConfirmed", "newRecovered"]}
             colors={[theme.palette.info.main, theme.palette.success.main]}
           >
             New Confirmed vs. New Recovered
           </LineGraph>
           <LineGraph
+            names={["Recovered", "Deaths"]}
             types={["recovered", "deaths"]}
             colors={[theme.palette.success.main, theme.palette.error.main]}
           >

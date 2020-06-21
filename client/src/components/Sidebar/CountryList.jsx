@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import Country from "./Country";
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CountryList({ timeSeries }) {
+export default function CountryList({ timeSeries }) {
   console.log("List Rendering...");
   const classes = useStyles();
   return (
@@ -39,9 +38,3 @@ function CountryList({ timeSeries }) {
     </List>
   );
 }
-
-const mapStateToProps = (state) => ({
-  timeSeries: state.timeSeries.data,
-});
-
-export default connect(mapStateToProps)(CountryList);

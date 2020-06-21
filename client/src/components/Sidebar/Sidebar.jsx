@@ -5,7 +5,7 @@ import CountryList from "./CountryList";
 import Header from "./Header";
 import WorldData from "./WorldData";
 
-const Sidebar = () => {
+const Sidebar = ({ timeSeries }) => {
   return (
     <Box
       display="flex"
@@ -18,9 +18,9 @@ const Sidebar = () => {
       bgcolor="White"
     >
       <Header />
-      <WorldData />
+      <WorldData timeSeries={timeSeries} />
       <Divider />
-      <CountryList />
+      <CountryList timeSeries={timeSeries} />
     </Box>
   );
 };

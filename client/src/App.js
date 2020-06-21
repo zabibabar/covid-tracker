@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { getTimeSeries } from "./actions/timeSeriesActions";
 import { connect } from "react-redux";
+import { getTimeSeries } from "./actions/timeSeriesActions";
 import Sidebar from "./components/Sidebar/Sidebar";
 import CountryDetails from "./components/Details/CountryDetails";
 import {
@@ -8,34 +8,49 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import { Backdrop, CircularProgress } from "@material-ui/core";
 
 import muiTheme from "./muiTheme";
 
-const theme = createMuiTheme(muiTheme);
-
+const myTheme = createMuiTheme(muiTheme);
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: myTheme.palette.background.default,
+    color: myTheme.palette.primary.main,
   },
 }));
 
-function App({ getTimeSeries }) {
+function App({ getTimeSeries, timeSeries, loading }) {
+  const classes = useStyles();
+
   useEffect(() => {
     getTimeSeries();
   }, [getTimeSeries]);
 
-  const classes = useStyles();
-
+  if (loading) {
+    return (
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  }
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={myTheme}>
       <div className={classes.root}>
-        <Sidebar />
+        <Sidebar timeSeries={timeSeries} />
         <CountryDetails />
       </div>
     </ThemeProvider>
   );
 }
+const mapStateToProps = ({ timeSeries }) => ({
+  timeSeries: timeSeries.data,
+  loading: timeSeries.loading,
+});
 
-export default connect(null, { getTimeSeries })(App);
+export default connect(mapStateToProps, { getTimeSeries })(App);

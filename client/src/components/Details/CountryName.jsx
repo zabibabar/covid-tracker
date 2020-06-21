@@ -17,7 +17,12 @@ function CountryName({ country }) {
   if (!country) return <></>;
 
   return (
-    <Typography className={classes.country} variant="h4" component="h4">
+    <Typography
+      className={classes.country}
+      variant="h4"
+      component="h4"
+      align="center"
+    >
       {country}
     </Typography>
   );
