@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
       return res.json(JSON.parse(data));
     } else {
       const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 20;
+      const limit = parseInt(req.query.limit) || 185;
       const sortBy = req.query.sortBy || "totalConfirmed";
       const order = parseInt(req.query.order) || -1;
       covidData

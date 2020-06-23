@@ -13,11 +13,7 @@ export const getTimeSeries = () => (dispatch) => {
 
   console.log("API called");
   axios
-    .get("api/timeSeries", {
-      params: {
-        sortBy: "totalActive",
-      },
-    })
+    .get("api/timeSeries")
     .then((res) => {
       dispatch({
         type: GET_TIME_SERIES,
