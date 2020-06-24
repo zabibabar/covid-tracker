@@ -24,9 +24,11 @@ export default function CaseCard({ type, total, today }) {
     <Box
       display="flex"
       flexDirection="column"
-      width={225}
+      flex="1 1 auto"
+      maxWidth={300}
+      width={170}
       height={100}
-      mb={1}
+      m={2}
       p={1}
       alignItems="center"
       borderRadius="borderRadius"

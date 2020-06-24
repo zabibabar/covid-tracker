@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Box } from "@material-ui/core";
 import {
   ResponsiveContainer,
@@ -11,7 +12,30 @@ import {
   Legend,
 } from "recharts";
 
+const useStyles = makeStyles((theme) => ({
+  boxSizing: "border-box",
+  root: {
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      marginBottom: theme.spacing(2),
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "100%",
+      marginBottom: theme.spacing(4),
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "calc(50% - 32px)",
+      marginBottom: theme.spacing(4),
+    },
+    [theme.breakpoints.up("xl")]: {
+      width: "calc(33% - 32px)",
+      marginBottom: theme.spacing(4),
+    },
+  },
+}));
+
 function BarGraph({ timeSeries, names, types, colors, children }) {
+  const classes = useStyles();
   const data = timeSeries.map((cases) => {
     var months = [
       "Jan",
@@ -40,10 +64,10 @@ function BarGraph({ timeSeries, names, types, colors, children }) {
   return (
     <Box
       bgcolor="background.paper"
+      marginX={2}
       boxShadow={2}
-      width={500}
       height={320}
-      mb={4}
+      className={classes.root}
     >
       <Box boxShadow={1} height="15%" p={1} boxSizing="border-box">
         <Typography variant="h6" component="div" align="center">

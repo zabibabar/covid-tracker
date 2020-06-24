@@ -16,7 +16,12 @@ function Cards({ covidData }) {
     newActive,
   } = covidData[covidData.length - 1];
   return (
-    <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      justifyContent="center"
+      alignItems="center"
+    >
       <CaseCard
         type="confirmed"
         total={confirmed}

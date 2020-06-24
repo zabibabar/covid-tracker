@@ -1,82 +1,39 @@
 import React from "react";
 
 // Material UI Imports
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
 // Component Imports
 import CountryName from "./CountryName";
 import Cards from "./Cards/Cards";
-import BarGraph from "./Graphs/BarGraph";
-import LineGraph from "./Graphs/LineGraph";
+import Graphs from "./Graphs/Graphs";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    boxSizing: "border-box",
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: "5%",
+      paddingRight: "5%",
+      width: "100%",
+      maxWidth: "100%",
+    },
+    [theme.breakpoints.up("md")]: {
+      paddingLeft: "calc(50px + 300px)",
+      paddingRight: 50,
+    },
+  },
+}));
 
 export default function CountryDetails() {
   const theme = useTheme();
+  const classes = useStyles();
 
   return (
-    <Box pl="45ch" pr="9ch">
+    <Box className={classes.root}>
       <CountryName />
       <Cards />
-      <Box display="flex" flexDirection="column" mt={3}>
-        <Box display="flex" justifyContent="space-between" flexWrap="wrap">
-          <LineGraph
-            names={["Confirmed"]}
-            types={["confirmed"]}
-            colors={[theme.palette.info.main]}
-          >
-            Total Confirmed
-          </LineGraph>
-          <BarGraph
-            names={["Daily Confirmed"]}
-            types={["newConfirmed"]}
-            colors={[theme.palette.info.main]}
-          >
-            Daily Confirmed
-          </BarGraph>
-          <LineGraph
-            names={["Active"]}
-            types={["active"]}
-            colors={[theme.palette.warning.main]}
-          >
-            Total Active
-          </LineGraph>
-          <LineGraph
-            names={["Active", "Confirmed"]}
-            types={["active", "confirmed"]}
-            colors={[theme.palette.info.main, theme.palette.warning.main]}
-          >
-            Confirmed vs. Active
-          </LineGraph>
-          <LineGraph
-            names={["Deaths"]}
-            types={["deaths"]}
-            colors={[theme.palette.error.main]}
-          >
-            Total Deaths
-          </LineGraph>
-          <BarGraph
-            names={["Deaths"]}
-            types={["newDeaths"]}
-            colors={[theme.palette.error.main]}
-          >
-            Daily Deaths
-          </BarGraph>
-          <LineGraph
-            names={["Daily Confirmed", "Daily Recovered"]}
-            types={["newConfirmed", "newRecovered"]}
-            colors={[theme.palette.info.main, theme.palette.success.main]}
-          >
-            New Confirmed vs. New Recovered
-          </LineGraph>
-          <LineGraph
-            names={["Recovered", "Deaths"]}
-            types={["recovered", "deaths"]}
-            colors={[theme.palette.success.main, theme.palette.error.main]}
-          >
-            Total Recovered vs. Total Deaths
-          </LineGraph>
-        </Box>
-      </Box>
+      <Graphs />
     </Box>
   );
 }
