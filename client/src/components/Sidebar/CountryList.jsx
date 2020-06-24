@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import Country from "./Country";
+import { List } from "@material-ui/core";
 
+import Country from "./Country";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",

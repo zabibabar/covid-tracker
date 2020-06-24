@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(4),
     },
   },
+  title: {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
 }));
 
 function LineGraph({ timeSeries, names, types, colors, children }) {
@@ -69,41 +72,43 @@ function LineGraph({ timeSeries, names, types, colors, children }) {
       height={320}
       className={classes.root}
     >
-      <Box boxShadow={1} height="15%" p={1} boxSizing="border-box">
-        <Typography variant="h6" component="div" align="center">
+      <Box boxShadow={1} height="13.75%" p={1} boxSizing="border-box">
+        <Typography
+          variant="subtitle1"
+          component="div"
+          className={classes.title}
+        >
           {children}
         </Typography>
       </Box>
-      <Box height="85%">
-        <ResponsiveContainer>
-          <LineChart
-            margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
-            data={data}
-            isAnimationActive={false}
-          >
-            <XAxis dataKey="date" />
-            <YAxis
-              tickFormatter={(tick) => {
-                return tick.toLocaleString();
-              }}
+      <ResponsiveContainer height="86.25%">
+        <LineChart
+          margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
+          data={data}
+          isAnimationActive={false}
+        >
+          <XAxis dataKey="date" />
+          <YAxis
+            tickFormatter={(tick) => {
+              return tick.toLocaleString();
+            }}
+          />
+          <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
+          <Legend />
+          {types.map((type, index) => (
+            <Line
+              key={index}
+              name={names[index]}
+              dataKey={type}
+              stroke={colors[index]}
+              strokeWidth={3}
+              dot={false}
+              activeDot={{ stroke: colors[index], r: 4 }}
+              isAnimationActive={false}
             />
-            <Tooltip formatter={(value) => `${value.toLocaleString()}`} />
-            <Legend />
-            {types.map((type, index) => (
-              <Line
-                key={index}
-                name={names[index]}
-                dataKey={type}
-                stroke={colors[index]}
-                strokeWidth={3}
-                dot={false}
-                activeDot={{ stroke: colors[index], r: 4 }}
-                isAnimationActive={false}
-              />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
-      </Box>
+          ))}
+        </LineChart>
+      </ResponsiveContainer>
     </Box>
   );
 }

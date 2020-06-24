@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(4),
     },
   },
+  title: {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
 }));
 
 function BarGraph({ timeSeries, names, types, colors, children }) {
@@ -69,12 +72,16 @@ function BarGraph({ timeSeries, names, types, colors, children }) {
       height={320}
       className={classes.root}
     >
-      <Box boxShadow={1} height="15%" p={1} boxSizing="border-box">
-        <Typography variant="h6" component="div" align="center">
+      <Box boxShadow={1} height="13.75%" p={1} boxSizing="border-box">
+        <Typography
+          variant="subtitle1"
+          component="div"
+          className={classes.title}
+        >
           {children}
         </Typography>
       </Box>
-      <ResponsiveContainer height="85%">
+      <ResponsiveContainer height="86.25%">
         <BarChart
           data={data}
           margin={{ top: 20, right: 30, left: 15, bottom: 10 }}

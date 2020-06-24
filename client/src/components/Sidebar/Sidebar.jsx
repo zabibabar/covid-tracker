@@ -2,15 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Divider, Box, Hidden } from "@material-ui/core";
 
-import CountryList from "./CountryList";
 import Header from "./Header";
 import WorldData from "./WorldData";
+import CountryList from "./CountryList";
+import CountryDropDown from "./CountryDropDown";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    boxSizing: "border-box",
     [theme.breakpoints.down("md")]: {
       width: "100%",
-      // height: "50vh",
       position: "static",
     },
     [theme.breakpoints.up("md")]: {
@@ -36,6 +37,9 @@ const Sidebar = ({ timeSeries }) => {
       <Divider />
       <Hidden smDown>
         <CountryList timeSeries={timeSeries} />
+      </Hidden>
+      <Hidden mdUp>
+        <CountryDropDown timeSeries={timeSeries} />
       </Hidden>
     </Box>
   );

@@ -4,7 +4,7 @@ import { Typography, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "White",
+    width: `calc(25% - ${theme.spacing(4)}px)`,
   },
   today: {
     fontWeight: theme.typography.fontWeightMedium,
@@ -24,16 +24,16 @@ export default function CaseCard({ type, total, today }) {
     <Box
       display="flex"
       flexDirection="column"
-      flex="1 1 auto"
       maxWidth={300}
-      width={170}
-      height={100}
+      minWidth={165}
       m={2}
       p={1}
+      boxSizing="border-box"
       alignItems="center"
       borderRadius="borderRadius"
       boxShadow={1}
       color={getColorFromType(type)}
+      bgcolor="background.paper"
       className={`${classes.root} ${classes[type]}`}
     >
       <Typography variant="body2" component="div" className={classes.today}>
