@@ -4,6 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import Divider from "@material-ui/core/Divider";
 
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@material-ui/core/Link";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -17,12 +20,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
     alignItems: "center",
-  },
-  Icon: {
-    marginRight: theme.spacing(2),
-  },
-  separator: {
-    marginRight: theme.spacing(2),
+    "& > *": {
+      marginRight: theme.spacing(1.5),
+    },
   },
   title: {
     fontSize: "20px",
@@ -36,19 +36,14 @@ export default function Header() {
   return (
     <header className={classes.root}>
       <div className={classes.flex}>
-        <TimelineIcon
-          fontSize="large"
-          className={classes.Icon}
-          color="primary"
-        />
-        <Divider
-          orientation="vertical"
-          flexItem
-          className={classes.separator}
-        />
+        <TimelineIcon fontSize="large" color="primary" />
+        <Divider orientation="vertical" flexItem />
         <Typography variant="h6" className={classes.title}>
           Covid Tracker
         </Typography>
+        <Link component={RouterLink} to="/about">
+          About
+        </Link>
       </div>
       <Divider />
     </header>

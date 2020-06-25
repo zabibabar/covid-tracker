@@ -1,56 +1,33 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { getTimeSeries } from "./actions/timeSeriesActions";
-import Sidebar from "./components/Sidebar/Sidebar";
-import CountryDetails from "./components/Details/CountryDetails";
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
-import { Backdrop, CircularProgress } from "@material-ui/core";
+import React from "react";
+import { Provider } from "react-redux";
+import Home from "./components/Home";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import store from "./store";
 import muiTheme from "./muiTheme";
 
 const myTheme = createMuiTheme(muiTheme);
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: "100vh",
-    flexGrow: 1,
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: myTheme.palette.background.default,
-    color: myTheme.palette.primary.main,
-  },
-}));
 
-function App({ getTimeSeries, timeSeries, loading }) {
-  const classes = useStyles();
-
-  useEffect(() => {
-    getTimeSeries();
-  }, [getTimeSeries]);
-
-  if (loading) {
-    return (
-      <Backdrop className={classes.backdrop} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    );
-  }
+export default function App() {
   return (
-    <ThemeProvider theme={myTheme}>
-      <div className={classes.root}>
-        <Sidebar timeSeries={timeSeries} />
-        <CountryDetails />
-      </div>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={myTheme}>
+        <Router>
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
-const mapStateToProps = ({ timeSeries }) => ({
-  timeSeries: timeSeries.data,
-  loading: timeSeries.loading,
-});
 
-export default connect(mapStateToProps, { getTimeSeries })(App);
+function About() {
+  return <h2>About</h2>;
+}

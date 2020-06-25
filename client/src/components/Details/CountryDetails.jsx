@@ -1,7 +1,7 @@
 import React from "react";
 
 // Material UI Imports
-import { useTheme, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
 // Component Imports
@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CountryDetails() {
-  const theme = useTheme();
   const classes = useStyles();
 
   return (
