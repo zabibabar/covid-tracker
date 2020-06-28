@@ -1,3 +1,5 @@
+import deepPurple from "@material-ui/core/colors/deepPurple";
+
 export default {
   breakpoints: {
     values: {
@@ -23,10 +25,7 @@ export default {
   },
   palette: {
     primary: {
-      main: "#673AB7",
-    },
-    secondary: {
-      main: "#408AA6",
+      main: deepPurple[500],
     },
     background: {
       default: "#F5F7Fb",

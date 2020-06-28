@@ -1,5 +1,5 @@
 const axios = require("axios");
-const CovidData = require("./models/covidData");
+const CovidData = require("../models/covidData");
 
 const updateCovidData = async () => {
   console.log("Making Update to Data");

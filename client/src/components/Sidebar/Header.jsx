@@ -15,13 +15,14 @@ const useStyles = makeStyles((theme) => ({
   },
   flex: {
     display: "flex",
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: theme.spacing(1, 2),
     alignItems: "center",
     "& > *": {
       marginRight: theme.spacing(1.5),
     },
   },
   title: {
+    marginRight: 0,
     fontSize: "20px",
     fontWeight: theme.typography.fontWeightBold,
   },
@@ -36,7 +37,7 @@ export default function Header() {
         <TimelineIcon fontSize="large" color="primary" />
         <Divider orientation="vertical" flexItem />
         <Typography variant="h6" className={classes.title}>
-          Covid Tracker
+          The Flat Covid Society
         </Typography>
       </div>
       <Divider />

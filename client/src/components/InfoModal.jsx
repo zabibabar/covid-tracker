@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, IconButton, Modal, Backdrop, Fade } from "@material-ui/core";
 import { Info as InfoIcon, Close as CloseIcon } from "@material-ui/icons";
+import ReactGA from "react-ga";
 
 function getModalStyle() {
   const top = 50;
@@ -61,8 +62,10 @@ export default function InfoModal() {
   const [modalStyle] = useState(getModalStyle);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = () => setIsOpen(!isOpen);
-
+  const handleToggle = () => {
+    ReactGA.modalview("/info");
+    setIsOpen(!isOpen);
+  };
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h1>About</h1>

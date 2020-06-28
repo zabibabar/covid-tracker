@@ -6,7 +6,7 @@ const covidData = require("../../models/covidData");
 // @access  Public
 router.get("/", (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
+  const limit = parseInt(req.query.limit) || 185;
   const sortBy = req.query.sortBy || "totalConfirmed";
   const order = parseInt(req.query.order) || -1;
   covidData

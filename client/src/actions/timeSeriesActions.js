@@ -12,7 +12,7 @@ export const getTimeSeries = () => (dispatch) => {
   dispatch(selectedCountryLoading());
 
   axios
-    .get("api/timeSeries")
+    .get("api/timeSeries", { params: { limit: 30 } })
     .then((res) => {
       dispatch({
         type: GET_TIME_SERIES,

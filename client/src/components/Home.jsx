@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getTimeSeries } from "../actions/timeSeriesActions";
 import { makeStyles } from "@material-ui/core/styles";
-import { Backdrop, CircularProgress, Box } from "@material-ui/core";
+import { Backdrop, CircularProgress } from "@material-ui/core";
 import Sidebar from "./Sidebar/Sidebar";
 import CountryDetails from "./Details/CountryDetails";
 import InfoModal from "./InfoModal";

@@ -11,6 +11,7 @@ import {
   setSelectedCountry,
   deselectCountry,
 } from "../../actions/selectedCountryActions";
+import ReactGa from "react-ga";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,6 +87,11 @@ function Country({
 
   function handleClick() {
     if (isSelected) return deselectCountry();
+
+    ReactGa.event({
+      category: "Sidebar Country List",
+      action: `${country} selected`,
+    });
     return setSelectedCountry({ country, countryTimeSeries });
   }
   return (
