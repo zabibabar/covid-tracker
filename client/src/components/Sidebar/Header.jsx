@@ -4,9 +4,6 @@ import Typography from "@material-ui/core/Typography";
 import TimelineIcon from "@material-ui/icons/Timeline";
 import Divider from "@material-ui/core/Divider";
 
-import { Link as RouterLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -41,9 +38,6 @@ export default function Header() {
         <Typography variant="h6" className={classes.title}>
           Covid Tracker
         </Typography>
-        <Link component={RouterLink} to="/about">
-          About
-        </Link>
       </div>
       <Divider />
     </header>
