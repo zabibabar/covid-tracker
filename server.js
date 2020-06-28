@@ -13,7 +13,10 @@ const app = express();
 app.use(cors());
 
 // DB Config
-const db = keys.MONGO_URI;
+const db =
+  process.env.NODE_ENV === "production"
+    ? process.env.MONGO_URI
+    : require("./config").MONGO_URI;
 
 // Connect to Mongo
 mongoose
