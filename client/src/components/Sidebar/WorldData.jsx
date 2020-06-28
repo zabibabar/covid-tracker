@@ -25,12 +25,17 @@ export default function WorldData({ timeSeries }) {
           GLOBAL CASES
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="subtitle1" component="div">
-          <Box fontWeight="fontWeightMedium">Confirmed</Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Typography variant="h4" component="div">
+          <Box> {data.confirmed.toLocaleString()}</Box>
         </Typography>
         <Typography variant="subtitle1" component="div">
-          <Box> {data.confirmed.toLocaleString()}</Box>
+          <Box fontWeight="fontWeightMedium">Confirmed</Box>
         </Typography>
       </Box>
 

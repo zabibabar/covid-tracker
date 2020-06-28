@@ -3,8 +3,8 @@ const covidData = require("../../models/covidData");
 const updateCovidData = require("../../dbUpdate");
 const redis = require("redis");
 
-const REDIS_PORT = process.env.REDIS_PORT || 6379;
-const client = redis.createClient(REDIS_PORT);
+const REDIS_URL = process.env.REDIS_URL || 6379;
+const client = redis.createClient(REDIS_URL);
 
 client.on("error", function (error) {
   console.error(error);

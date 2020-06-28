@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const keys = require("./config");
-
+const path = require("path");
 // routes
 const countries = require("./routes/api/countries");
 const timeSeries = require("./routes/api/timeSeries");
@@ -30,6 +30,15 @@ mongoose
 // Use Routes
 app.use("/api/countries", countries);
 app.use("/api/timeSeries", timeSeries);
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (_, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 // Listen on PORT 5000 if not set in environment
 const PORT = process.env.PORT || 5000;

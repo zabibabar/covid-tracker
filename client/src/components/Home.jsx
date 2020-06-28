@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   InfoModal: {
     [theme.breakpoints.down("sm")]: {
-      top: 310,
+      top: 350,
       right: 20,
     },
     [theme.breakpoints.up("md")]: {
