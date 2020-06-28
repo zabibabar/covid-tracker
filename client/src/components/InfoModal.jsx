@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Modal, Backdrop, Fade } from "@material-ui/core";
+import { Box, IconButton, Modal, Backdrop, Fade } from "@material-ui/core";
 import { Info as InfoIcon, Close as CloseIcon } from "@material-ui/icons";
 
 function getModalStyle() {
@@ -15,6 +15,16 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    [theme.breakpoints.down("sm")]: {
+      top: 350,
+      right: 20,
+    },
+    [theme.breakpoints.up("md")]: {
+      top: 20,
+      right: 40,
+    },
+  },
   paper: {
     boxSizing: "border-box",
     position: "absolute",
@@ -72,7 +82,10 @@ export default function InfoModal() {
       <div style={{ display: "flex", alignItems: "center" }}>
         <h2>Sources:</h2>
         <p style={{ marginLeft: "8px" }}>
-          <a href="https://github.com/CSSEGISandData/COVID-19">JHU</a>
+          <a href="https://github.com/CSSEGISandData/COVID-19">
+            COVID-19 Data Repository by the Center for Systems Science and
+            Engineering (CSSE) at Johns Hopkins University
+          </a>
         </p>
       </div>
       <IconButton className={classes.closeButton} onClick={handleToggle}>
@@ -82,7 +95,7 @@ export default function InfoModal() {
   );
 
   return (
-    <>
+    <Box position="absolute" className={classes.root}>
       <IconButton
         className={classes.button}
         aria-label="info"
@@ -103,6 +116,6 @@ export default function InfoModal() {
       >
         <Fade in={isOpen}>{body}</Fade>
       </Modal>
-    </>
+    </Box>
   );
 }

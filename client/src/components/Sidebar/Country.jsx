@@ -82,7 +82,7 @@ function Country({
   deselectCountry,
 }) {
   const classes = useStyles();
-  const { active } = countryTimeSeries[countryTimeSeries.length - 1];
+  const { confirmed } = countryTimeSeries[countryTimeSeries.length - 1];
 
   function handleClick() {
     if (isSelected) return deselectCountry();
@@ -111,7 +111,7 @@ function Country({
               variant="subtitle2"
               component="span"
             >
-              {active.toLocaleString("en")}
+              {confirmed.toLocaleString("en")}
             </Typography>
             <IconButton className={classes.button}>
               {isSelected ? (

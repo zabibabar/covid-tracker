@@ -18,16 +18,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     color: theme.palette.primary.main,
   },
-  InfoModal: {
-    [theme.breakpoints.down("sm")]: {
-      top: 350,
-      right: 20,
-    },
-    [theme.breakpoints.up("md")]: {
-      top: 20,
-      right: 40,
-    },
-  },
 }));
 
 function Home({ getTimeSeries, timeSeries, loading }) {
@@ -48,9 +38,7 @@ function Home({ getTimeSeries, timeSeries, loading }) {
     <div className={classes.root}>
       <Sidebar timeSeries={timeSeries} />
       <CountryDetails />
-      <Box position="absolute" className={classes.InfoModal}>
-        <InfoModal />
-      </Box>
+      <InfoModal />
     </div>
   );
 }

@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-// const redis = require("redis");
+const cronJob = require("./utils/mongoCronUpdate");
 
 // routes
 const countries = require("./routes/api/countries");
@@ -27,16 +27,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
+    cronJob.start();
     console.log("MongoDB Connected...");
   })
   .catch((err) => console.log(err));
-
-// const REDIS_URL = process.env.REDIS_URL || 6379;
-// const client = redis.createClient(REDIS_URL);
-
-// client.on("error", function (error) {
-//   console.error(error);
-// });
 
 // Use Routes
 app.use("/api/countries", countries);

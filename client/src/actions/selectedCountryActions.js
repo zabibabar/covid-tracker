@@ -20,17 +20,12 @@ export const setSelectedCountry = ({ country, countryTimeSeries }) => (
 };
 
 export const deselectCountry = () => (dispatch, getState) => {
-  console.log("HI");
   dispatch({ type: DESLECT_COUNTRY });
   dispatch(selectedCountryLoading());
-
-  console.log(getState());
 
   const [country] = getState().timeSeries.data.filter(
     (country) => country.country === "World"
   );
-
-  console.log(country);
 
   dispatch({
     type: SET_SELECTED_COUNTRY,

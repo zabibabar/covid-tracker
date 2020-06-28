@@ -11,7 +11,6 @@ export const getTimeSeries = () => (dispatch) => {
   dispatch(timeSeriesLoading());
   dispatch(selectedCountryLoading());
 
-  console.log("API called");
   axios
     .get("api/timeSeries")
     .then((res) => {

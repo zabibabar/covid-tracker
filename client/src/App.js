@@ -15,10 +15,7 @@ export default function App() {
       <ThemeProvider theme={myTheme}>
         <Router>
           <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/">
+            <Route path="/" exact>
               <Home />
             </Route>
           </Switch>
@@ -26,8 +23,4 @@ export default function App() {
       </ThemeProvider>
     </Provider>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
 }
