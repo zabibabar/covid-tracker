@@ -3,47 +3,32 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: `calc(25% - ${theme.spacing(4)}px)`,
-  },
-  today: {
-    fontWeight: theme.typography.fontWeightMedium,
-    alignSelf: "flex-end",
-  },
   total: {
-    fontWeight: theme.typography.fontWeightLight,
+    color: theme.palette.text.secondary,
+    fontWeight: theme.typography.fontWeightRegular,
   },
   title: {
-    fontWeight: theme.typography.fontWeightLight,
+    fontWeight: theme.typography.fontWeightMedium,
   },
 }));
 
-export default function CaseCard({ type, total, today }) {
+export default function Card({ type, total }) {
   const classes = useStyles();
   return (
     <Box
       display="flex"
-      flexDirection="column"
-      maxWidth={300}
-      minWidth={175}
-      m={2}
-      p={1}
-      boxSizing="border-box"
+      justifyContent="space-between"
       alignItems="center"
-      borderRadius="borderRadius"
-      boxShadow={1}
-      color={getColorFromType(type)}
-      bgcolor="background.paper"
-      className={`${classes.root} ${classes[type]}`}
+      width="100%"
+      mb={1}
+      boxSizing="border-box"
+      className={classes[type]}
     >
-      <Typography variant="body2" component="div" className={classes.today}>
-        {formatToday(today)}
-      </Typography>
-      <Typography variant="h4" component="div" className={classes.total}>
-        {total ? total.toLocaleString() : "N/A"}
-      </Typography>
-      <Typography variant="h6" component="div" className={classes.title}>
+      <Typography variant="body2" component="div" className={classes.title}>
         {titleFromType(type)}
+      </Typography>
+      <Typography variant="subtitle1" component="div" className={classes.total}>
+        {total ? total.toLocaleString() : "N/A"}
       </Typography>
     </Box>
   );
@@ -54,11 +39,11 @@ function titleFromType(type) {
     case "confirmed":
       return "Confirmed";
     case "deaths":
-      return "Deaths";
+      return "Total Deaths";
     case "recovered":
-      return "Recovered";
+      return "Total Recovered";
     case "active":
-      return "Active";
+      return "Total Active";
     default:
       return "";
   }

@@ -13,12 +13,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CountryDropDown({ timeSeries, selectedCountry, setSelectedCountry }) {
+function CountryDropDown({
+  worldData,
+  timeSeries,
+  selectedCountry,
+  setSelectedCountry,
+}) {
   const classes = useStyles();
+  const countryList = [worldData, ...timeSeries.flat()];
+
   const handleChange = (event) => {
     return setSelectedCountry({
       country: event.target.value,
-      countryTimeSeries: timeSeries.find(
+      countryTimeSeries: countryList.find(
         (country) => country.country === event.target.value
       ).timeSeries,
     });
@@ -32,7 +39,7 @@ function CountryDropDown({ timeSeries, selectedCountry, setSelectedCountry }) {
         value={selectedCountry.name}
         onChange={handleChange}
       >
-        {timeSeries.flat().map((country) => (
+        {countryList.map((country) => (
           <MenuItem key={country.country} value={country.country}>
             {country.country}
           </MenuItem>
@@ -43,6 +50,7 @@ function CountryDropDown({ timeSeries, selectedCountry, setSelectedCountry }) {
 }
 
 const mapStateToProps = ({ selectedCountry, timeSeries }) => ({
+  worldData: timeSeries.worldWideData,
   timeSeries: timeSeries.data,
   selectedCountry,
 });

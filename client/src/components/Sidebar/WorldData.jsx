@@ -2,69 +2,45 @@ import React from "react";
 import { connect } from "react-redux";
 import { Box, Typography } from "@material-ui/core";
 
+import Card from "./Card";
+
 function WorldData({ worldWideData }) {
   if (!worldWideData.hasOwnProperty("timeSeries")) return <></>;
   const data = worldWideData.timeSeries[worldWideData.timeSeries.length - 1];
   return (
-    <Box
-      px={3}
-      py={2}
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-    >
-      {/* <Box
-        fontWeight="fontWeightMedium"
-        color="white"
-        bgcolor="primary.main"
-        borderRadius="borderRadius"
-      >
-        <Typography variant="subtitle1" component="div" align="center">
-          GLOBAL CASES
+    <>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box
+          mt={2}
+          mb={1}
+          py={1}
+          width="80%"
+          borderRadius="borderRadius"
+          bgcolor="primary.main"
+          color="common.white"
+        >
+          <Typography variant="h5" component="div" align="center">
+            GLOBAL CASES
+          </Typography>
+        </Box>
+        <Typography variant="h4" component="div">
+          {data.confirmed.toLocaleString()}
         </Typography>
-      </Box> */}
+        <Typography>Total Confirmed</Typography>
+      </Box>
       <Box
+        mx={2}
+        my={2}
         display="flex"
         flexDirection="column"
-        alignItems="center"
+        flexWrap="wrap"
         justifyContent="space-between"
-        mb={1}
       >
-        <Typography variant="h4" component="div">
-          <Box> {data.confirmed.toLocaleString()}</Box>
-        </Typography>
-        <Typography variant="subtitle1" component="div">
-          <Box fontWeight="fontWeightMedium">Confirmed</Box>
-        </Typography>
+        <Card type="deaths" total={data.deaths} />
+        <Card type="recovered" total={data.recovered} />
+        <Card type="active" total={data.active} />
       </Box>
-
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="subtitle1" component="div">
-          <Box fontWeight="fontWeightMedium">Deaths</Box>
-        </Typography>
-        <Typography variant="subtitle2" component="div">
-          <Box color="text.secondary">{data.deaths.toLocaleString()}</Box>
-        </Typography>
-      </Box>
-
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="subtitle1" component="div">
-          <Box fontWeight="fontWeightMedium">Recovered</Box>
-        </Typography>
-        <Typography variant="subtitle2" component="div">
-          <Box color="text.secondary">{data.recovered.toLocaleString()}</Box>
-        </Typography>
-      </Box>
-
-      <Box display="flex" justifyContent="space-between">
-        <Typography variant="subtitle1" component="div">
-          <Box fontWeight="fontWeightMedium">Active</Box>
-        </Typography>
-        <Typography variant="subtitle2" component="div">
-          <Box color="text.secondary">{data.active.toLocaleString()}</Box>
-        </Typography>
-      </Box>
-    </Box>
+    </>
   );
 }
 

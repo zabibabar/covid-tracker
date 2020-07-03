@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, List, Hidden } from "@material-ui/core";
+import { Box, List } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import Country from "./Country";
@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "10%",
     },
   },
-  pagination: {
+  ul: {
+    justifyContent: "center",
     marginBottom: theme.spacing(1),
   },
 }));
@@ -46,14 +47,13 @@ function CountryList({ timeSeries, selectPage }) {
           />
         ))}
       </List>
-      <Hidden smDown>
-        <Pagination
-          count={5}
-          shape="rounded"
-          className={classes.pagination}
-          onChange={handlePageChange}
-        />
-      </Hidden>
+      <Pagination
+        color="primary"
+        shape="rounded"
+        count={5}
+        classes={classes}
+        onChange={handlePageChange}
+      />
     </Box>
   );
 }
