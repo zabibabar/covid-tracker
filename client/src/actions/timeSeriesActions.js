@@ -32,16 +32,21 @@ export const getTimeSeries = () => async (dispatch) => {
     })
     .catch((err) => dispatch(returnErrors(err, 404)));
 
-  for (let i = 2; i <= 5; i++) {
-    axios
-      .get("api/timeSeries", { params: { page: i, limit: 37 } })
-      .then((res) => {
-        dispatch({
-          type: GET_TIME_SERIES,
-          data: res.data,
-        });
-      })
-      .catch((err) => dispatch(returnErrors(err, 404)));
+  const requests = [2, 3, 4, 5].map((page) =>
+    axios.get("api/timeSeries", { params: { page: page, limit: 37 } })
+  );
+
+  try {
+    const responses = await axios.all(requests);
+
+    responses.forEach((res) => {
+      dispatch({
+        type: GET_TIME_SERIES,
+        data: res.data,
+      });
+    });
+  } catch (error) {
+    dispatch(returnErrors(error, 404));
   }
 };
 
