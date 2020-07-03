@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
     },
   },
-  logo: {
-    width: 32,
-    height: 32,
-  },
   title: {
     marginRight: 0,
     fontSize: "20px",
@@ -37,11 +33,7 @@ export default function Header() {
   return (
     <header className={classes.root}>
       <div className={classes.flex}>
-        <img
-          className={classes.logo}
-          src={process.env.PUBLIC_URL + "tfcsLogo.png"}
-          alt="Logo"
-        />
+        <img src={process.env.PUBLIC_URL + "tfcsLogo.png"} alt="Logo" />
         <Divider orientation="vertical" flexItem />
         <Typography variant="h6" className={classes.title}>
           The Flat Covid Society
