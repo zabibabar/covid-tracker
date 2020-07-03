@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core";
 
-import {
-  setSelectedCountry,
-  deselectCountry,
-} from "../../actions/selectedCountryActions";
+import { setSelectedCountry } from "../../actions/selectedCountryActions";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -35,7 +32,7 @@ function CountryDropDown({ timeSeries, selectedCountry, setSelectedCountry }) {
         value={selectedCountry.name}
         onChange={handleChange}
       >
-        {timeSeries.map((country) => (
+        {timeSeries.flat().map((country) => (
           <MenuItem key={country.country} value={country.country}>
             {country.country}
           </MenuItem>
@@ -45,11 +42,11 @@ function CountryDropDown({ timeSeries, selectedCountry, setSelectedCountry }) {
   );
 }
 
-const mapStateToProps = ({ selectedCountry }) => ({
+const mapStateToProps = ({ selectedCountry, timeSeries }) => ({
+  timeSeries: timeSeries.data,
   selectedCountry,
 });
 
 export default connect(mapStateToProps, {
   setSelectedCountry,
-  deselectCountry,
 })(CountryDropDown);
