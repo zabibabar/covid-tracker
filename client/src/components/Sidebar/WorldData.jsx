@@ -1,12 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Box, Typography } from "@material-ui/core";
 
-export default function WorldData({ timeSeries }) {
-  if (!Object.keys(timeSeries).length) return <></>;
-
-  const world = timeSeries.find((country) => (country.country = "World"));
-  const data = world ? world.timeSeries[world.timeSeries.length - 1] : {};
-
+function WorldData({ worldWideData }) {
+  if (!worldWideData.hasOwnProperty("timeSeries")) return <></>;
+  const data = worldWideData.timeSeries[worldWideData.timeSeries.length - 1];
   return (
     <Box
       px={3}
@@ -21,7 +19,7 @@ export default function WorldData({ timeSeries }) {
         bgcolor="primary.main"
         borderRadius="borderRadius"
       >
-        <Typography variant="h6" component="div" align="center">
+        <Typography variant="subtitle1" component="div" align="center">
           GLOBAL CASES
         </Typography>
       </Box>
@@ -68,3 +66,9 @@ export default function WorldData({ timeSeries }) {
     </Box>
   );
 }
+
+const mapStateToProps = ({ timeSeries }) => ({
+  worldWideData: timeSeries.worldWideData,
+});
+
+export default connect(mapStateToProps)(WorldData);

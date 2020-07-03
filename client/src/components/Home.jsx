@@ -20,9 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home({ getTimeSeries, timeSeries, loading }) {
+function Home({ getTimeSeries, loading }) {
   const classes = useStyles();
-
   useEffect(() => {
     getTimeSeries();
   }, [getTimeSeries]);
@@ -36,14 +35,13 @@ function Home({ getTimeSeries, timeSeries, loading }) {
   }
   return (
     <div className={classes.root}>
-      <Sidebar timeSeries={timeSeries} />
+      <Sidebar />
       <CountryDetails />
       <InfoModal />
     </div>
   );
 }
 const mapStateToProps = ({ timeSeries }) => ({
-  timeSeries: timeSeries.data,
   loading: timeSeries.loading,
 });
 

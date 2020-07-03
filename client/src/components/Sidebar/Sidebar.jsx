@@ -9,7 +9,6 @@ import CountryDropDown from "./CountryDropDown";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    boxSizing: "border-box",
     [theme.breakpoints.down("md")]: {
       width: "100%",
       position: "static",
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Sidebar = ({ timeSeries }) => {
+const Sidebar = () => {
   const classes = useStyles();
   return (
     <Box
@@ -30,16 +29,17 @@ const Sidebar = ({ timeSeries }) => {
       zIndex={1}
       boxShadow={2}
       bgcolor="White"
+      boxSizing="border-box"
       className={classes.root}
     >
       <Header />
-      <WorldData timeSeries={timeSeries} />
+      <WorldData />
       <Divider />
       <Hidden smDown>
-        <CountryList timeSeries={timeSeries} />
+        <CountryList />
       </Hidden>
       <Hidden mdUp>
-        <CountryDropDown timeSeries={timeSeries} />
+        <CountryDropDown />
       </Hidden>
     </Box>
   );

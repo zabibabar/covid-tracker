@@ -23,9 +23,8 @@ export const deselectCountry = () => (dispatch, getState) => {
   dispatch({ type: DESLECT_COUNTRY });
   dispatch(selectedCountryLoading());
 
-  const [country] = getState().timeSeries.data.filter(
-    (country) => country.country === "World"
-  );
+  const country = getState().timeSeries.worldWideData;
+  console.log(country);
 
   dispatch({
     type: SET_SELECTED_COUNTRY,

@@ -15,6 +15,7 @@
   "author": "Zabeeh Ullah Babar",
   "license": "",
   "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.19.2",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
