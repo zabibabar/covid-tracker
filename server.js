@@ -27,8 +27,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    cronJob.start();
     console.log("MongoDB Connected...");
+    cronJob.start();
   })
   .catch((err) => console.log(err));
 

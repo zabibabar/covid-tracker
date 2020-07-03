@@ -213,3 +213,5 @@ const mergeJSONs = (json1, json2, json3) => {
 };
 
 module.exports = updateCovidData;
+
+getData();

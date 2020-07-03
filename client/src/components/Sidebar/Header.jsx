@@ -40,6 +40,7 @@ export default function Header() {
         <img
           className={classes.logo}
           src={process.env.PUBLIC_URL + "tfcsLogo.png"}
+          alt="Logo"
         />
         <Divider orientation="vertical" flexItem />
         <Typography variant="h6" className={classes.title}>
