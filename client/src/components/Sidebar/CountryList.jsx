@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CountryList({ timeSeries, selectPage }) {
+function CountryList({ timeSeries, selectPage, allLoaded }) {
   const classes = useStyles();
 
   const handlePageChange = (event, page) => {
@@ -47,19 +47,26 @@ function CountryList({ timeSeries, selectPage }) {
           />
         ))}
       </List>
-      <Pagination
-        color="primary"
-        shape="rounded"
-        count={5}
-        classes={classes}
-        onChange={handlePageChange}
-      />
+      {allLoaded ? (
+        <Pagination
+          color="primary"
+          shape="rounded"
+          count={5}
+          classes={classes}
+          onChange={handlePageChange}
+        />
+      ) : (
+        <></>
+      )}
     </Box>
   );
 }
 
-const mapStateToProps = ({ timeSeries }) => ({
-  timeSeries: timeSeries.data[timeSeries.selectedPage - 1],
+const mapStateToProps = ({
+  timeSeries: { data, selectedPage, totalPages },
+}) => ({
+  timeSeries: data[selectedPage - 1],
+  allLoaded: totalPages === 5 ? true : false,
 });
 
 export default connect(mapStateToProps, { selectPage })(CountryList);

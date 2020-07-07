@@ -8,6 +8,7 @@ import {
 const initialState = {
   worldWideData: {},
   data: [],
+  totalPages: 0,
   selectedPage: 1,
   loading: false,
 };
@@ -23,6 +24,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         data: [...state.data, action.data],
+        totalPages: state.totalPages + 1,
         loading: false,
       };
     case SELECT_PAGE:
