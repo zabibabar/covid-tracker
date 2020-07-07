@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
+
+import InfoModal from "../InfoModal";
 
 const useStyles = makeStyles((theme) => ({
   country: {
@@ -17,14 +19,17 @@ function CountryName({ country }) {
   if (!country) return <></>;
 
   return (
-    <Typography
-      className={classes.country}
-      variant="h4"
-      component="h4"
-      align="center"
-    >
-      {country}
-    </Typography>
+    <Box position="relative">
+      <Typography
+        className={classes.country}
+        variant="h4"
+        component="h4"
+        align="center"
+      >
+        {country}
+      </Typography>
+      <InfoModal />
+    </Box>
   );
 }
 

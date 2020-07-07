@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Backdrop, CircularProgress } from "@material-ui/core";
 import Sidebar from "./Sidebar/Sidebar";
 import CountryDetails from "./Details/CountryDetails";
-import InfoModal from "./InfoModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +36,6 @@ function Home({ getTimeSeries, loading }) {
     <div className={classes.root}>
       <Sidebar />
       <CountryDetails />
-      <InfoModal />
     </div>
   );
 }

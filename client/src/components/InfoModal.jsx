@@ -17,14 +17,8 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    [theme.breakpoints.down("sm")]: {
-      top: 350,
-      right: 20,
-    },
-    [theme.breakpoints.up("md")]: {
-      top: 20,
-      right: 40,
-    },
+    top: "calc(50% - 21px)",
+    right: 0,
   },
   paper: {
     boxSizing: "border-box",
